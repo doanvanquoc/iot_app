@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iot_app/common/app_color.dart';
-import 'package:iot_app/common/app_style.dart';
-import 'package:iot_app/common/my_button.dart';
+import 'package:iot_app/common/app/app_color.dart';
+import 'package:iot_app/common/app/app_style.dart';
+import 'package:iot_app/common/widget/my_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
