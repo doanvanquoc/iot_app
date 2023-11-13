@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iot_app/common/app/app_color.dart';
 import 'package:iot_app/common/app/app_style.dart';
 import 'package:iot_app/common/widget/my_button.dart';
 
@@ -17,13 +16,14 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: [
-            Image.asset(
-              'assets/images/logo.png',
-              color: AppColor.primaryColor.withOpacity(0.8),
-            ),
-            const Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
-            const MyButton(text: 'Đăng Nhập'),
+          children: const [
+            // Image.asset(
+            //   'assets/images/logo.png',
+            //   color: AppColor.primaryColor.withOpacity(0.8),
+            // ),
+
+            Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
+            MyButton(text: 'Đăng Nhập'),
           ],
         ),
       ),

@@ -16,7 +16,10 @@ class AppStyle {
   ); // Style text cho text nằm trên ảnh, dòng 2
 
   static const buttonText = TextStyle(
-      color: Color(0xffF7FBFC), fontSize: 16, fontWeight: FontWeight.w700);
+    color: Color(0xffF7FBFC),
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+  );
 }
 
 //HDSD => Text('AppBar Text', style: AppStyle.appBarPrimaryText)
