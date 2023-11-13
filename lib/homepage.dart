@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:iot_app/common/app/app_style.dart';
-import 'package:iot_app/common/widget/my_button.dart';
+import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:lottie/lottie.dart';
+
+import 'common/apps/app_color.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -16,14 +21,41 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: const [
-            // Image.asset(
-            //   'assets/images/logo.png',
-            //   color: AppColor.primaryColor.withOpacity(0.8),
-            // ),
-
-            Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
-            MyButton(text: 'Đăng Nhập'),
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              color: AppColor.primaryColor.withOpacity(0.8),
+            ),
+            const Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
+            MyButton(
+                text: 'Gửi mã OTP',
+                onTap: () {
+                  log('abc');
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Center(
+                          child: Material(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Lottie.asset('assets/lotties/checked.json',
+                                      width: 100, height: 100),
+                                  const Text(
+                                    'Đăng Nhập Thành Công',
+                                    style: AppStyle.appBarText,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                }),
           ],
         ),
       ),
