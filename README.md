@@ -43,5 +43,3 @@ Start the server
 [CKC_IT](https://cntt.caothang.edu.vn)
 
 
-![Logo](https://cntt.caothang.edu.vn/uploads/media/logo.jpg)
-
