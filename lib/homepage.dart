@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/common/widgets/my_card.dart';
 import 'package:lottie/lottie.dart';
 
 import 'common/apps/app_color.dart';
@@ -27,6 +28,12 @@ class HomePage extends StatelessWidget {
               color: AppColor.primaryColor.withOpacity(0.8),
             ),
             const Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
+            const MyCard(
+              deviceName: 'diviceName',
+              area: 'area',
+              icon: Icons.face_unlock_outlined,
+            ),
+            const SizedBox(height: 20),
             MyButton(
                 text: 'Gửi mã OTP',
                 onTap: () {

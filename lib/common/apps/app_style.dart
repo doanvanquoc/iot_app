@@ -15,10 +15,22 @@ class AppStyle {
     fontSize: 12,
   ); // Style text cho text nằm trên ảnh, dòng 2
 
+  static const onCardPrimaryText = TextStyle(
+    color: Color(0xff484D51),
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const onCardSecondaryText = TextStyle(
+    color: Color(0xff484D51),
+    fontSize: 15,
+    // fontWeight: FontWeight.bold,
+  );
+
   static const buttonText = TextStyle(
     color: Color(0xffF7FBFC),
     fontSize: 16,
-    fontWeight: FontWeight.w700,
+    // fontWeight: FontWeight.w700,
   );
 }
 
