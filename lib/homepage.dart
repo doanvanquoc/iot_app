@@ -8,8 +8,15 @@ import 'package:lottie/lottie.dart';
 
 import 'common/apps/app_color.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool value = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,10 +35,18 @@ class HomePage extends StatelessWidget {
               color: AppColor.primaryColor.withOpacity(0.8),
             ),
             const Text('Đăng Nhập Tài Khoản', style: AppStyle.appBarText),
-            const MyCard(
+            MyCard(
+              value: value,
               deviceName: 'diviceName',
               area: 'area',
               icon: Icons.face_unlock_outlined,
+              onChanged: (val) {
+                showModalBottomSheet(
+                    context: context, builder: (context) => const Text('data'));
+                setState(() {
+                  value = val;
+                });
+              },
             ),
             const SizedBox(height: 20),
             MyButton(

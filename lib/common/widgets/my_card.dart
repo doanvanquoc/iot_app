@@ -1,16 +1,21 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 
 class MyCard extends StatelessWidget {
-  final String deviceName;
-  final String area;
-  final IconData icon;
   const MyCard(
       {super.key,
       required this.deviceName,
       required this.area,
-      required this.icon});
+      required this.icon,
+      required this.onChanged, required this.value});
+
+  final String deviceName;
+  final String area;
+  final IconData icon;
+  final Function(bool value) onChanged;
+  final bool value;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,14 +34,9 @@ class MyCard extends StatelessWidget {
               Icon(icon, size: 40),
               const SizedBox(width: 100),
               CupertinoSwitch(
-                  value: true,
-                  onChanged: (active) {},
+                  value: value,
+                  onChanged: onChanged,
                   activeColor: AppColor.primaryColor),
-              // Switch(
-              //   value: true,
-              //   onChanged: (value) {},
-              //   activeColor: AppColor.primaryColor,
-              // )
             ],
           ),
           const SizedBox(height: 16),
