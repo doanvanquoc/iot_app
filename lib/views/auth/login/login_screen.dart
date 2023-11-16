@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
-import 'package:iot_app/views/auth/login/phone_number_control_widget.dart';
-
-import 'segmented_control_widget.dart';
+import 'package:iot_app/views/auth/login/controllers/phone_number_controller.dart';
+import 'package:iot_app/views/auth/login/controllers/segmented_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   final LoginViewModel viewModel = Get.put(LoginViewModel());
@@ -37,12 +36,12 @@ class LoginScreen extends StatelessWidget {
                         color: Color(0xff484D51),
                       )),
                   const SizedBox(height: 24),
-                  SegmentedControlWidget(viewModel: viewModel),
+                  SegmentedController(viewModel: viewModel),
                   const SizedBox(height: 24),
                   Row(
                     children: [
                       Expanded(
-                        child: PhoneNumberControlWidget(),
+                        child: PhoneNumberController(),
                       ),
                       const SizedBox(width: 12),
                       Expanded(

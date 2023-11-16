@@ -2,13 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
+import 'package:iot_app/views/auth/login/country_phone_code.dart';
 
-import 'country_phone_code.dart';
-
-class PhoneNumberControlWidget extends StatelessWidget {
+class PhoneNumberController extends StatelessWidget {
   final LoginViewModel viewModel = Get.find();
 
-  PhoneNumberControlWidget({Key? key}) : super(key: key);
+  PhoneNumberController({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,12 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iot_app/view_models/login_view_model.dart';
 
-import '../../../view_models/login_view_model.dart';
-
-class SegmentedControlWidget extends StatelessWidget {
+class SegmentedController extends StatelessWidget {
   final LoginViewModel viewModel;
 
-  const SegmentedControlWidget({super.key, required this.viewModel});
+  const SegmentedController({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +37,7 @@ class SegmentedControlWidget extends StatelessWidget {
                   color: Colors.black.withOpacity(.3),
                   blurRadius: 4.0,
                   spreadRadius: 1.0,
-                  offset: const Offset(
-                    0.0,
-                    2.0,
-                  ),
+                  offset: const Offset(0.0, 2.0),
                 ),
               ],
             ),
