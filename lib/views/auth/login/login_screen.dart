@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
-import 'package:iot_app/views/auth/login/login_view_model.dart';
+import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/views/auth/login/phone_number_control_widget.dart';
 
 import 'segmented_control_widget.dart';

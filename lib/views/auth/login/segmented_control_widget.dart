@@ -2,7 +2,7 @@ import 'package:custom_sliding_segmented_control/custom_sliding_segmented_contro
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'login_view_model.dart';
+import '../../../view_models/login_view_model.dart';
 
 class SegmentedControlWidget extends StatelessWidget {
   final LoginViewModel viewModel;

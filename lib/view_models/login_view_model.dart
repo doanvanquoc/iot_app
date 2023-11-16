@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'country_phone_code.dart';
+import '../views/auth/login/country_phone_code.dart';
 
 class LoginViewModel extends GetxController {
   var selectedSegment = 1.obs;
