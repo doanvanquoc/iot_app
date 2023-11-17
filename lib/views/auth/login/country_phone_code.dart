@@ -1,5 +1,5 @@
 class CountryPhoneCode {
-  String? name;
+  String name;
   String code;
 
   CountryPhoneCode(this.name, this.code);

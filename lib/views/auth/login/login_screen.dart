@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
+import 'package:iot_app/views/auth/login/authentication_screen.dart';
 import 'package:iot_app/views/auth/login/controllers/phone_number_controller.dart';
 import 'package:iot_app/views/auth/login/controllers/segmented_controller.dart';
 
@@ -14,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7FBFC),
+      backgroundColor: AppColor.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -38,31 +39,65 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   SegmentedController(viewModel: viewModel),
                   const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: PhoneNumberController(),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        flex: 3,
-                        child: SizedBox(
-                          height: 56,
-                          child: TextFormField(
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
+                  Obx(() {
+                    if (viewModel.selectedSegment.value == 1) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: PhoneNumberController(),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                              height: 56,
+                              child: TextFormField(
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: false),
+                                style: const TextStyle(
+                                  color: Color(0xff484D51),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  contentPadding: const EdgeInsets.all(16),
+                                ),
                               ),
-                              contentPadding: const EdgeInsets.all(16),
                             ),
                           ),
+                        ],
+                      );
+                    } else {
+                      return SizedBox(
+                        height: 56,
+                        child: TextFormField(
+                          style: const TextStyle(
+                            color: Color(0xff484D51),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'your_email@gmail.com',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            contentPadding: const EdgeInsets.all(16),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      );
+                    }
+                  }),
                   const SizedBox(height: 24),
-                  MyButton(text: 'Gửi mã OTP', onTap: () {}),
+                  MyButton(
+                      text: 'Gửi mã OTP',
+                      onTap: () {
+                        Get.to(AuthenticationScreen());
+                      }),
                 ],
               ),
             )

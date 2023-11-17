@@ -35,6 +35,11 @@ class PhoneNumberController extends StatelessWidget {
           return CountryPhoneCode.countryCodes.map((countryCode) {
             return Text(
               countryCode.code,
+              style: const TextStyle(
+                color: Color(0xff484D51),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             );
           }).toList();
         },
