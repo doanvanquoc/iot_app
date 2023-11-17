@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
-import 'package:iot_app/views/auth/login/authentication_screen.dart';
 import 'package:iot_app/views/auth/login/controllers/phone_number_controller.dart';
 import 'package:iot_app/views/auth/login/controllers/segmented_controller.dart';
 
@@ -52,6 +52,7 @@ class LoginScreen extends StatelessWidget {
                             child: SizedBox(
                               height: 56,
                               child: TextFormField(
+                                onChanged: (value) => viewModel.phoneNumber(value),
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
                                         decimal: false),
@@ -75,6 +76,7 @@ class LoginScreen extends StatelessWidget {
                       return SizedBox(
                         height: 56,
                         child: TextFormField(
+                          onChanged: (value) => viewModel.email(value),
                           style: const TextStyle(
                             color: Color(0xff484D51),
                             fontSize: 18,
@@ -93,11 +95,22 @@ class LoginScreen extends StatelessWidget {
                     }
                   }),
                   const SizedBox(height: 24),
-                  MyButton(
+                  Obx(
+                    () => MyButton(
                       text: 'Gửi mã OTP',
-                      onTap: () {
-                        Get.to(AuthenticationScreen());
-                      }),
+                      onTap: viewModel.checkInPutCompletion
+                          ? viewModel.sendOTP
+                          : () {
+                              Get.snackbar(
+                                'Thông báo',
+                                'Vui lòng điền đầy đủ thông tin!',
+                                colorText: AppColor.primaryColor,
+                                backgroundColor: const Color(0xffDDE6ED),
+                                snackPosition: SnackPosition.TOP,
+                              );
+                            },
+                    ),
+                  ),
                 ],
               ),
             )
