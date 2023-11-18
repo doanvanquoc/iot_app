@@ -46,7 +46,27 @@ class AddArea extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 46),
-        MyButton(text: 'Tiếp tục', onTap: onNext)
+        MyButton(
+            text: 'Tiếp tục',
+            onTap: () {
+              if (addRoomViewModel.roomName.isEmpty) {
+                Get.showSnackbar(const GetSnackBar(
+                  titleText: Text('Thông báo', style: AppStyle.appBarText),
+                  messageText: Text(
+                    'Vui lòng nhập tên phòng',
+                    style: AppStyle.onCardPrimaryText,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.all(8),
+                  duration: Duration(seconds: 1),
+                  backgroundColor: AppColor.backgroundColor,
+                  borderRadius: 16,
+                  snackPosition: SnackPosition.TOP,
+                ));
+              } else {
+                onNext();
+              }
+            })
       ],
     );
   }

@@ -125,5 +125,6 @@ class AddRoomController extends GetxController {
 
   void onSelectedChange(String url) {
     selectedImgUrl.value = url;
+    update();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/common/widgets/my_bottom_nav_bar.dart';
 import 'package:iot_app/view_models/home_view_model/add_room_viewmodel.dart';
 import 'package:iot_app/views/home/widgets/room_item.dart';
 
@@ -35,6 +36,7 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: const MyBottomNavBar(),
     );
   }
 }

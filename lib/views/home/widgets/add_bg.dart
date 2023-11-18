@@ -49,8 +49,8 @@ class AddBackground extends StatelessWidget {
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        Obx(
-          () => GridView.builder(
+        GetBuilder<AddRoomController>(builder: (context) {
+          return GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,9 +59,9 @@ class AddBackground extends StatelessWidget {
               crossAxisSpacing: 16,
               childAspectRatio: 3 / 2,
             ),
-            itemCount: addRoomViewModel.imgs.length,
+            itemCount: context.imgs.length,
             itemBuilder: (_, index) {
-              String imgUrl = addRoomViewModel.imgs[index];
+              String imgUrl = context.imgs[index];
               return Stack(
                 children: [
                   Positioned.fill(
@@ -83,7 +83,7 @@ class AddBackground extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (imgUrl == addRoomViewModel.selectedImgUrl.value)
+                  if (imgUrl == context.selectedImgUrl.value)
                     const Positioned(
                       bottom: 5,
                       right: 5,
@@ -95,10 +95,30 @@ class AddBackground extends StatelessWidget {
                 ],
               );
             },
-          ),
-        ),
+          );
+        }),
         const SizedBox(height: 16),
-        MyButton(text: 'Tiếp tục', onTap: onNext),
+        MyButton(
+            text: 'Tiếp tục',
+            onTap: () {
+              if (addRoomViewModel.selectedImgUrl.isEmpty) {
+                Get.showSnackbar(const GetSnackBar(
+                  titleText: Text('Thông báo', style: AppStyle.appBarText),
+                  messageText: Text(
+                    'Vui lòng chọn ảnh nền',
+                    style: AppStyle.onCardPrimaryText,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.all(8),
+                  duration: Duration(seconds: 1),
+                  backgroundColor: AppColor.backgroundColor,
+                  borderRadius: 16,
+                  snackPosition: SnackPosition.TOP,
+                ));
+              } else {
+                onNext();
+              }
+            }),
         const SizedBox(height: 8),
         MyButton(
           text: 'Trở về',
