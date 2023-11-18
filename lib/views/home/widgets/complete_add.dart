@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/view_models/home_view_model/add_room_viewmodel.dart';
 import 'package:lottie/lottie.dart';
 
 class CompleteAdd extends StatelessWidget {
-  const CompleteAdd({super.key, required this.onDone});
+  const CompleteAdd({super.key, required this.onDone, required this.onCancel});
   final Function() onDone;
+  final Function() onCancel;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,11 +20,10 @@ class CompleteAdd extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: onCancel,
               icon: const Icon(
                 Icons.cancel,
+                color: AppColor.secondaryColor,
               ),
             )
           ],
@@ -32,7 +35,7 @@ class CompleteAdd extends StatelessWidget {
         ),
         const SizedBox(height: 30),
         Text(
-          'Phòng khách đã được thêm',
+          '${Get.find<AddRoomController>().roomName} đã được thêm',
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 26),

@@ -1,14 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/view_models/home_view_model/add_room_viewmodel.dart';
 
 class AddBackground extends StatelessWidget {
-  const AddBackground({super.key, required this.onNext, required this.onBack});
+  const AddBackground(
+      {super.key,
+      required this.onNext,
+      required this.onBack,
+      required this.onCancel});
   final Function() onNext;
   final Function() onBack;
+  final Function() onCancel;
   @override
   Widget build(BuildContext context) {
+    final addRoomViewModel = Get.find<AddRoomController>();
     List<String> imgs = [
       'assets/images/bg1.png',
       'assets/images/bg2.png',
@@ -26,11 +36,10 @@ class AddBackground extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: onCancel,
               icon: const Icon(
                 Icons.cancel,
+                color: AppColor.secondaryColor,
               ),
             )
           ],
@@ -40,28 +49,53 @@ class AddBackground extends StatelessWidget {
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 16,
-            childAspectRatio: 3 / 2,
+        Obx(
+          () => GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 16,
+              childAspectRatio: 3 / 2,
+            ),
+            itemCount: addRoomViewModel.imgs.length,
+            itemBuilder: (_, index) {
+              String imgUrl = addRoomViewModel.imgs[index];
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onTap: () {
+                        addRoomViewModel.setImgUrl(imgUrl);
+                        addRoomViewModel.onSelectedChange(imgUrl);
+                        log(addRoomViewModel.selectedImgUrl.value.toString());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                            image: AssetImage(imgs[index]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (imgUrl == addRoomViewModel.selectedImgUrl.value)
+                    const Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: AppColor.primaryColor,
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
-          itemCount: imgs.length,
-          itemBuilder: (_, index) {
-            return Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: AssetImage(imgs[index]),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
         ),
         const SizedBox(height: 16),
         MyButton(text: 'Tiếp tục', onTap: onNext),

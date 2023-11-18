@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/models/room.dart';
 
 class RoomItem extends StatelessWidget {
-  const RoomItem({super.key});
+  const RoomItem({super.key, required this.room});
+  final Room room;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -12,28 +14,38 @@ class RoomItem extends StatelessWidget {
         Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.5),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
                 image: DecorationImage(
-                  image: AssetImage('assets/images/image.png'),
+                  image: AssetImage(room.imgUrl),
                   fit: BoxFit.cover,
                 ),
-                color: Colors.red,
               ),
               height: 160,
             ),
-            const Positioned(
+            Positioned(
               top: 20,
               left: 24,
-              child: Text('Phòng khách', style: AppStyle.onImagePrimaryText),
+              child: Text(room.name, style: AppStyle.onImagePrimaryText),
             ),
-            const Positioned(
+            Positioned(
               top: 42,
               left: 24,
-              child: Text('2/3 đang bật', style: AppStyle.onImageSecondaryText),
+              child: Text(
+                '${room.turningDevices} / ${room.totalDevices} đang bật',
+                style: AppStyle.onImageSecondaryText,
+              ),
             ),
           ],
         ),

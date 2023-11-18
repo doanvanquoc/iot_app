@@ -7,14 +7,12 @@ class AppStyle {
   ); // Style text appbar
 
   static const onImagePrimaryText = TextStyle(
-    color: Color(0xff484D51),
+    color: Color(0xffF7FBFC),
     fontSize: 18,
-    fontWeight: FontWeight.w600,
   ); // Style text cho text nằm trên ảnh, dòng 1
   static const onImageSecondaryText = TextStyle(
-    color: Color(0xff484D51),
+    color: Color(0xffF7FBFC),
     fontSize: 15,
-    fontWeight: FontWeight.w600,
   ); // Style text cho text nằm trên ảnh, dòng 2
 
   static const onCardPrimaryText = TextStyle(
