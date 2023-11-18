@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // Chú ý xem màu trong design figma để dùng cho chuẩn
 class AppColor {
   static const primaryColor = Color(0xffFF7B54); //màu chủ đạo
