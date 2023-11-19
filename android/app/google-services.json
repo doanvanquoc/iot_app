@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "291507479918",
+    "firebase_url": "https://smarthome-arduino-53a4f-default-rtdb.firebaseio.com",
+    "project_id": "smarthome-arduino-53a4f",
+    "storage_bucket": "smarthome-arduino-53a4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291507479918:android:345c361ee153a82efb0d7f",
+        "android_client_info": {
+          "package_name": "com.example.iot_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpma4Mi6bTzydAUc19RBoJr2dcUHmTaA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
