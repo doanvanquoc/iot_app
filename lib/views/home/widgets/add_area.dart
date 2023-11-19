@@ -11,7 +11,7 @@ class AddArea extends StatelessWidget {
   final Function() onCancel;
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.find<AddRoomController>();
+    final addRoomViewModel = Get.find<AddRoomViewModel>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,

@@ -35,7 +35,7 @@ class CompleteAdd extends StatelessWidget {
         ),
         const SizedBox(height: 30),
         Text(
-          '${Get.find<AddRoomController>().roomName} đã được thêm',
+          '${Get.find<AddRoomViewModel>().roomName} đã được thêm',
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 26),

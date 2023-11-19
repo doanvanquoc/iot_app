@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.put(AddRoomController());
+    final addRoomViewModel = Get.put(AddRoomViewModel());
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(

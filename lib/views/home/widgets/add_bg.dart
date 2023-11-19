@@ -18,7 +18,7 @@ class AddBackground extends StatelessWidget {
   final Function() onCancel;
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.find<AddRoomController>();
+    final addRoomViewModel = Get.find<AddRoomViewModel>();
     List<String> imgs = [
       'assets/images/bg1.png',
       'assets/images/bg2.png',
@@ -49,7 +49,7 @@ class AddBackground extends StatelessWidget {
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GetBuilder<AddRoomController>(builder: (context) {
+        GetBuilder<AddRoomViewModel>(builder: (context) {
           return GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

@@ -8,7 +8,7 @@ import 'package:iot_app/views/home/widgets/add_area.dart';
 import 'package:iot_app/views/home/widgets/add_bg.dart';
 import 'package:iot_app/views/home/widgets/complete_add.dart';
 
-class AddRoomController extends GetxController {
+class AddRoomViewModel extends GetxController {
   RxInt currentIndex = 0.obs;
   List<Widget> lstShowModal = [];
   RxList<Room> rooms = <Room>[].obs;
