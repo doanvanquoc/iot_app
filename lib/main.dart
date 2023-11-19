@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iot_app/views/user/card_notification.dart';
+import 'package:iot_app/views/user/notification_screen.dart';
 import 'package:iot_app/views/user/user_screen.dart';
 
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
       ),
-      home: const UserScreen()
+      home:  const UserScreen()
     );
   }
 }

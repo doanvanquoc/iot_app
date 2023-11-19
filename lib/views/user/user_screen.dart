@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/views/user/colorTitle.dart';
 import 'package:iot_app/views/user/editUser_screen.dart';
 import 'package:iot_app/views/user/notification_screen.dart';
 
@@ -55,22 +56,22 @@ class UserScreen extends StatelessWidget {
                 onTap: (){
                   Navigator.push(context,MaterialPageRoute(builder: (context) => const EditUserScreen(),),);
                 },
-                child: colorTile(Icons.person, Colors.black, "Thông tin cá nhân"),
+                child: const ColorTitle(icon: Icons.person, color: Colors.black, text: "Thông tin cá nhân")
               ),
               GestureDetector(
                 onTap: (){},
-                child: colorTile(Icons.settings, Colors.black, "Cài đặt"),
+                child: const ColorTitle(icon: Icons.settings, color:Colors.black, text:"Cài đặt"),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,MaterialPageRoute(builder: (context) => const NotificationScreen(),),);
                 },
-                child: colorTile(Icons.notifications, Colors.black, "Thông báo"),
+                child: const ColorTitle(icon: Icons.notifications,color: Colors.black, text:"Thông báo"),
               ),
 
               GestureDetector(
                 onTap: (){},
-                child: colorTile(Icons. login, Colors.black, "Đăng xuất"),
+                child: const ColorTitle(icon: Icons. login,color: Colors.black,text: "Đăng xuất"),
               )
             ],
           ),
@@ -80,28 +81,5 @@ class UserScreen extends StatelessWidget {
   }
 }
 
-
-Widget colorTile(IconData icon, Color color, String text) {
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 15), 
-    child: ListTile(
-      tileColor: const Color.fromRGBO(224, 231, 233, 1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      leading: Container(
-        height: 45,
-        width: 45,
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.09),
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Icon(icon, color: color),
-      ),
-      title: Text(text,style:const TextStyle(fontSize: 16),),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 24),
-    ),
-  );
-}
 
 

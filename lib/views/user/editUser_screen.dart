@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/views/user/text_edit_user.dart';
 
 class EditUserScreen extends StatelessWidget {
   const EditUserScreen({super.key});
@@ -77,104 +79,21 @@ class EditUserScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Tên đăng nhập",style: TextStyle(fontSize: 18),),
-                      const SizedBox(height: 5,),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.secondaryColor),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                        ),
-                      ),
-
+                      const TextEditUser(text: 'Thông tin tài khoản'),
                       const SizedBox(height: 15),
 
-                      const Text("Email",style: TextStyle(fontSize: 18),),
-                      const SizedBox(height: 5,),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.secondaryColor),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                        ),
-                      ),
-
+                      const TextEditUser(text: 'Email'),
                       const SizedBox(height: 15),
 
-                      const Text("Số điện thoại",style: TextStyle(fontSize: 18),),
-                      const SizedBox(height: 5,),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.secondaryColor),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                        ),
-                      ),
-
+                      const TextEditUser(text: 'Số điện thoại'),
                       const SizedBox(height: 15),
 
-                      const Text("Mật khẩu",style: TextStyle(fontSize: 18),),
-                      const SizedBox(height: 5,),
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.secondaryColor),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                        ),
-                      ),
+                      const TextEditUser(text: 'Mật khẩu'),
+                      const SizedBox(height: 15),
 
                       const SizedBox(height: 25),
 
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.primaryColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                side: BorderSide.none,
-                              ),
-                              child:  const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 70,vertical: 12),
-                                child: Text('Cập nhật',style: TextStyle(fontSize: 20,color: Colors.white),),
-                            ),
-                          ),
-                        ]
-                      ),
+                      MyButton(text: 'Cập nhật', onTap: (){})
                     ],
                   ),
                 ),
