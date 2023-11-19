@@ -52,27 +52,33 @@ class UserScreen extends StatelessWidget {
               const Text("Anh Quân",style: TextStyle(fontSize: 20,color: Color.fromRGBO(72, 77, 81, 1),fontWeight: FontWeight.bold),),
               const SizedBox(height: 20),
 
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const EditUserScreen(),),);
-                },
-                child: const ColorTitle(icon: Icons.person, color: Colors.black, text: "Thông tin cá nhân")
-              ),
-              GestureDetector(
-                onTap: (){},
-                child: const ColorTitle(icon: Icons.settings, color:Colors.black, text:"Cài đặt"),
-              ),
-              GestureDetector(
+              ColorTitle(
+                icon: Icons.person,
+                text: "Thông tin cá nhân",
                 onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const NotificationScreen(),),);
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => const EditUserScreen()),);
                 },
-                child: const ColorTitle(icon: Icons.notifications,color: Colors.black, text:"Thông báo"),
               ),
 
-              GestureDetector(
-                onTap: (){},
-                child: const ColorTitle(icon: Icons. login,color: Colors.black,text: "Đăng xuất"),
-              )
+              ColorTitle(
+                icon: Icons.person,
+                text: "Cài đặt",
+                onTap: () {},
+              ),
+
+              ColorTitle(
+                icon: Icons.person,
+                text: "Thông báo",
+                onTap: () {
+                   Navigator.push(context,MaterialPageRoute(builder: (context) => const NotificationScreen(),),);
+                },
+              ),
+
+              ColorTitle(
+                icon: Icons.person,
+                text: "Đăng xuất",
+                onTap: () {},
+              ),
             ],
           ),
         ),
