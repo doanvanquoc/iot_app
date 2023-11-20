@@ -110,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                       if (viewModel.checkInPutCompletion) {
                         print('test input pas');
                         AuthenticationViewModel.instance
-                            .phoneAuthentification('+1${phoneNo.text.trim()}');
+                            .phoneAuthentification('+84${phoneNo.text.trim()}');
                       } else {
                         Get.snackbar(
                           'Thông báo',

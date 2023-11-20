@@ -34,7 +34,6 @@ class AuthenticationRepository extends GetxController {
       phoneNumber: phoneNo,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
-        viewModel.sendOTP();
       },
       verificationFailed: (FirebaseAuthException e) {
         // if (e.code == 'invalid-phone-number') {
@@ -56,10 +55,12 @@ class AuthenticationRepository extends GetxController {
         // }
         throw Exception(e.message);
       },
-      codeSent: ((verificationId, forceResendingToken) {
+      codeSent: (verificationId, forceResendingToken) {
+        //viewModel.sendOTP();
         verificationID.value = verificationId;
         _forceResendingToken = forceResendingToken;
-      }),
+      },
+      timeout: const Duration(seconds: 60),
       codeAutoRetrievalTimeout: ((verificationId) {
         verificationID.value = verificationId;
       }),
