@@ -60,6 +60,10 @@ class DeviceViewModel extends GetxController {
     super.onInit();
   }
 
+  // void submitForm(Key frm){
+  //   if()
+  // }
+
   void onTapRoom(index) {
     selectedIndex.value = index;
   }
