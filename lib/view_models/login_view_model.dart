@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:iot_app/models/country_phone_code.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/views/auth/login/authentication_screen.dart';
-import 'package:iot_app/views/auth/login/country_phone_code.dart';
 
 class LoginViewModel extends GetxController {
   var selectedSegment = 1.obs;
@@ -11,7 +11,8 @@ class LoginViewModel extends GetxController {
   bool get isPhoneComplete => phoneNumber.trim().isNotEmpty;
   bool get isEmailComplete => email.trim().isNotEmpty && isEmail;
 
-  final AuthenticationViewModel viewModelAuth = Get.put(AuthenticationViewModel());
+  final AuthenticationViewModel viewModelAuth =
+      Get.put(AuthenticationViewModel());
 
   void onSegmentChanged(int newValue) {
     selectedSegment(newValue);
@@ -26,10 +27,9 @@ class LoginViewModel extends GetxController {
   }
 
   void sendOTP() {
-    if (checkInPutCompletion) {
-      Get.to(AuthenticationScreen());
-      viewModelAuth.startTime();
-    }
+    print('go to auth');
+    Get.to(AuthenticationScreen(), arguments: phoneNumber.value.toString());
+    viewModelAuth.startTime();
   }
 
   bool get isEmail {

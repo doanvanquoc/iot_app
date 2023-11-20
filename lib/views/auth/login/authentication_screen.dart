@@ -9,6 +9,8 @@ class AuthenticationScreen extends StatelessWidget {
   AuthenticationScreen({super.key});
 
   final AuthenticationViewModel viewModel = Get.put(AuthenticationViewModel());
+  final String phoneNumber = Get.arguments;
+  //final String verifycationId;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +66,16 @@ class AuthenticationScreen extends StatelessWidget {
               Obx(
                 () => TextButton(
                   onPressed: () {
-                    viewModel.resendCode.value ? viewModel.ResendCode() : null;
+                    viewModel.resCode.value
+                        ? viewModel.resendCode(phoneNumber)
+                        : null;
                   },
                   child: Text(
                     'Gửi lại mã',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: viewModel.resendCode.value
+                      color: viewModel.resCode.value
                           ? const Color(0xffFF7B54)
                           : Colors.grey,
                     ),
@@ -81,18 +85,9 @@ class AuthenticationScreen extends StatelessWidget {
               const SizedBox(height: 271),
               Obx(
                 () => MyButton(
-                    text: 'Đăng nhập',
-                    onTap: viewModel.isOTPComplete
-                        ? viewModel.checkOTPCompletion
-                        : () {
-                            Get.snackbar(
-                              'Thông báo',
-                              'Vui lòng điền đầy đủ mã OTP!',
-                              colorText: AppColor.primaryColor,
-                              backgroundColor: const Color(0xffDDE6ED),
-                              snackPosition: SnackPosition.TOP,
-                            );
-                          }),
+                  text: 'Đăng nhập',
+                  onTap: viewModel.checkOTPCompletion,
+                ),
               ),
             ],
           ),

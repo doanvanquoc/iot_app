@@ -2,18 +2,42 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/views/room/room_screen.dart';
 
 class AuthenticationViewModel extends GetxController {
+  static AuthenticationViewModel get instance => Get.find();
   final List<TextEditingController> otpControllers = List.generate(
     6,
     (index) => TextEditingController(),
   );
 
+  void phoneAuthentification(String phoneNo) {
+    AuthenticationRepository.instance.phoneNumberAuthentication(phoneNo);
+  }
+
+  void verifyOTP() async {
+    var otp = otpValues.join();
+    var isVerify = await AuthenticationRepository.instance.verifyOTP(otp);
+
+    if (isVerify) {
+      Get.offAll(() => const HomePage());
+    } else {
+      Get.snackbar(
+        'Thông báo',
+        'OTP không hợp lệ!',
+        colorText: AppColor.primaryColor,
+        backgroundColor: const Color(0xffDDE6ED),
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
   var otpValues = List.filled(6, '').obs;
   var timeLeft = 60.obs;
   Timer? _timer;
-  RxBool resendCode = false.obs;
+  RxBool resCode = false.obs;
   bool get isOTPComplete =>
       otpValues.every((value) => value.trim().length == 1);
 
@@ -29,7 +53,7 @@ class AuthenticationViewModel extends GetxController {
 
   void startTime() {
     timeLeft.value = 60;
-    resendCode.value = false;
+    resCode.value = false;
     _timer?.cancel();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -37,18 +61,27 @@ class AuthenticationViewModel extends GetxController {
         timeLeft--;
       } else {
         timer.cancel();
-        resendCode.value = true;
+        resCode.value = true;
       }
     });
   }
 
-  void ResendCode() {
+  void resendCode(String phoneNo) {
+    phoneAuthentification(phoneNo);
     startTime();
   }
 
-  void checkOTPCompletion() {
+  Future<void> checkOTPCompletion() async {
     if (isOTPComplete) {
-      Get.to(const HomePage());
+      verifyOTP();
+    } else {
+      Get.snackbar(
+        'Thông báo',
+        'Vui lòng điền đầy đủ mã OTP!',
+        colorText: AppColor.primaryColor,
+        backgroundColor: const Color(0xffDDE6ED),
+        snackPosition: SnackPosition.TOP,
+      );
     }
   }
 
