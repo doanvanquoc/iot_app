@@ -4,15 +4,13 @@ import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class AreaItem extends StatelessWidget {
-  AreaItem({
-    super.key,
-    required this.index,
-  });
-  int index;
+  const AreaItem({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
+
     return Expanded(
       flex: 1,
       child: GestureDetector(

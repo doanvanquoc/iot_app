@@ -7,20 +7,19 @@ import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 import 'package:iot_app/views/device/widgets/area_item.dart';
 
 class BottomSheetOption extends StatelessWidget {
-  BottomSheetOption({
+  const BottomSheetOption({
     super.key,
     required this.onNext,
     required this.onBack,
     required this.onCanel,
   });
-  Function() onNext;
-  Function() onBack;
-  Function() onCanel;
+  final Function() onNext;
+  final Function() onBack;
+  final Function() onCanel;
 
   @override
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
-
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.48,
       child: Padding(
@@ -54,22 +53,22 @@ class BottomSheetOption extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       AreaItem(index: 1),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
                       AreaItem(index: 2),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
                       AreaItem(index: 3),
                     ],
                   ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       AreaItem(index: 4),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
                       AreaItem(index: 5),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16),
                       AreaItem(index: 6),
                     ],
                   ),
@@ -77,9 +76,7 @@ class BottomSheetOption extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Row(
-                children: [
-                  AreaItem(index: 7),
-                ],
+                children: const [AreaItem(index: 7)],
               ),
               const SizedBox(height: 40),
               MyButton(

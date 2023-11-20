@@ -11,6 +11,7 @@ class DeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceViewModel = Get.put(DeviceViewModel());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,23 +38,21 @@ class DeviceScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16.0,
-            childAspectRatio: 1.32,
+        child: Obx(
+          () => GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 1.32,
+            ),
+            itemCount: deviceViewModel.devices.length,
+            itemBuilder: (_, int index) {
+              return MyCard(
+                device: deviceViewModel.devices[index],
+              );
+            },
           ),
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(() => MyCard(
-                  deviceName: "Đèn",
-                  area: "Phòng khách",
-                  icon: Icons.light,
-                  onChanged: deviceViewModel.onHandelSwitch,
-                  value: deviceViewModel.checkStateDevice.value,
-                ));
-          },
         ),
       ),
     );

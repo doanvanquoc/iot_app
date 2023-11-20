@@ -6,9 +6,9 @@ import 'package:iot_app/common/widgets/my_button.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class BottomSheetAdd extends StatelessWidget {
-  BottomSheetAdd({super.key, required this.onNext, required this.onCanel});
-  Function() onNext;
-  Function() onCanel;
+  const BottomSheetAdd({super.key, required this.onNext, required this.onCanel});
+  final Function() onNext;
+  final Function() onCanel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class BottomSheetAdd extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: deviceViewModel.onDone,
+                    onTap: Get.back,
                     child: ClipOval(
                       child: Container(
                         color: Colors.black,
