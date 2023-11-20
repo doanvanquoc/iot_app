@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_bottom_nav_bar.dart';
+import 'package:iot_app/models/room.dart';
 import 'package:iot_app/view_models/home_view_model/add_room_viewmodel.dart';
-import 'package:iot_app/views/home/widgets/living_room.dart';
+import 'package:iot_app/views/details_room/widgets/living_room.dart';
 
 
 class living_Screen extends StatelessWidget {
-  const living_Screen({super.key});
-  
+   living_Screen({super.key, required this.room});
+  Room room;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +31,7 @@ class living_Screen extends StatelessWidget {
         ],
       ),
       body: 
-      Obx(
-        () => ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 9),
-          itemCount: addRoomViewModel.rooms.length,
-          itemBuilder: (_, index) {
-            return Living_Item(room:addRoomViewModel.rooms[index],);
-          },
-        ),
-      ),
+      Living_Item(room:room,),
        bottomNavigationBar: const MyBottomNavBar(),
     );
   }

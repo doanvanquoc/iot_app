@@ -6,7 +6,9 @@ class viewModel extends GetxController{
   var checkState=false.obs;
   var selectedState=0.obs;
 
-  @override
+
+
+  
   void onHandelSwitch(pres)
   {
     checkState.value=pres;
@@ -15,5 +17,7 @@ class viewModel extends GetxController{
   {
     selectedState.value=index;
   }
+
+  
  
 } 

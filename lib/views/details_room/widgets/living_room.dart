@@ -15,44 +15,47 @@ class Living_Item extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-       Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.5),
-                    blurRadius: 2,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+       Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.5),
+                      blurRadius: 2,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  image:  DecorationImage(
+                    image: AssetImage(room.imgUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: const DecorationImage(
-                  image: AssetImage("assets/images/living_room.png"),
-                  fit: BoxFit.cover,
+                height: 160,
+              ),
+              Positioned(
+                top: 20,
+                left: 24,
+                child: Text(room.name, style: AppStyle.onImagePrimaryText),
+              ),
+              Positioned(
+                top: 42,
+                left: 24,
+                child: Text(
+                  '${room.turningDevices} / ${room.totalDevices} đang bật',
+                  style: AppStyle.onImageSecondaryText,
                 ),
               ),
-              height: 160,
-            ),
-            Positioned(
-              top: 20,
-              left: 24,
-              child: Text(room.name, style: AppStyle.onImagePrimaryText),
-            ),
-            Positioned(
-              top: 42,
-              left: 24,
-              child: Text(
-                '${room.turningDevices} / ${room.totalDevices} đang bật',
-                style: AppStyle.onImageSecondaryText,
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+       ),
         const Padding(
           padding: EdgeInsets.all(10.0),
           child: Text("Thiết Bị",style: TextStyle(  color: Color(0xff484D51),

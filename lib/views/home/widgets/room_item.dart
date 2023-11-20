@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/models/room.dart';
+import 'package:iot_app/views/details_room/living_screen.dart';
 
 class RoomItem extends StatelessWidget {
   const RoomItem({super.key, required this.room});
@@ -13,26 +14,33 @@ class RoomItem extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.5),
-                    blurRadius: 2,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+            GestureDetector(
+              onTap: (){
+                print("a");
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>living_Screen(room: room)));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.5),
+                      blurRadius: 2,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  
+                  image: DecorationImage(
+                    image: AssetImage(room.imgUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(room.imgUrl),
-                  fit: BoxFit.cover,
-                ),
+                height: 160,
               ),
-              height: 160,
             ),
             Positioned(
               top: 20,
