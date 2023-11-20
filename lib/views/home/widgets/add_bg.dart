@@ -18,15 +18,10 @@ class AddBackground extends StatelessWidget {
   final Function() onCancel;
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.find<AddRoomViewModel>();
-    List<String> imgs = [
-      'assets/images/bg1.png',
-      'assets/images/bg2.png',
-      'assets/images/bg3.png',
-      'assets/images/bg4.png',
-      'assets/images/bg5.png',
-      'assets/images/bg6.png',
-    ];
+    final viewModel = Get.find<AddRoomViewModel>();
+    if (viewModel.selectedImgUrl.isEmpty) {
+      viewModel.selectedImgUrl.value = viewModel.imgs[0];
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,76 +44,59 @@ class AddBackground extends StatelessWidget {
           style: AppStyle.appBarText.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GetBuilder<AddRoomViewModel>(builder: (context) {
-          return GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 16,
-              childAspectRatio: 3 / 2,
-            ),
-            itemCount: context.imgs.length,
-            itemBuilder: (_, index) {
-              String imgUrl = context.imgs[index];
-              return Stack(
-                children: [
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        addRoomViewModel.setImgUrl(imgUrl);
-                        addRoomViewModel.onSelectedChange(imgUrl);
-                        log(addRoomViewModel.selectedImgUrl.value.toString());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                            image: AssetImage(imgs[index]),
-                            fit: BoxFit.cover,
-                          ),
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 16,
+            childAspectRatio: 3 / 2,
+          ),
+          itemCount: viewModel.imgs.length,
+          itemBuilder: (_, index) {
+            String imgUrl = viewModel.imgs[index];
+            return Stack(
+              children: [
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: () {
+                      viewModel.setImgUrl(imgUrl);
+                      log(viewModel.selectedImgUrl.value.toString());
+                      viewModel.onSelectedChange(imgUrl);
+                      log(viewModel.selectedImgUrl.value.toString());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: AssetImage(viewModel.imgs[index]),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
-                  if (imgUrl == context.selectedImgUrl.value)
-                    const Positioned(
-                      bottom: 5,
-                      right: 5,
-                      child: Icon(
-                        Icons.check_circle,
-                        color: AppColor.primaryColor,
-                      ),
-                    ),
-                ],
-              );
-            },
-          );
-        }),
+                ),
+                Obx(() => imgUrl == viewModel.selectedImgUrl.value
+                    ? const Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: Icon(
+                          Icons.check_circle,
+                          color: AppColor.primaryColor,
+                        ),
+                      )
+                    : const SizedBox())
+              ],
+            );
+          },
+        ),
         const SizedBox(height: 16),
         MyButton(
-            text: 'Tiếp tục',
-            onTap: () {
-              if (addRoomViewModel.selectedImgUrl.isEmpty) {
-                Get.showSnackbar(const GetSnackBar(
-                  titleText: Text('Thông báo', style: AppStyle.appBarText),
-                  messageText: Text(
-                    'Vui lòng chọn ảnh nền',
-                    style: AppStyle.onCardPrimaryText,
-                  ),
-                  padding: EdgeInsets.all(16),
-                  margin: EdgeInsets.all(8),
-                  duration: Duration(seconds: 1),
-                  backgroundColor: AppColor.backgroundColor,
-                  borderRadius: 16,
-                  snackPosition: SnackPosition.TOP,
-                ));
-              } else {
-                onNext();
-              }
-            }),
+          text: 'Tiếp tục',
+          onTap: onNext,
+        ),
         const SizedBox(height: 8),
         MyButton(
           text: 'Trở về',

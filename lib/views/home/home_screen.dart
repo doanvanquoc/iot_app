@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.put(AddRoomViewModel());
+    final viewModel = Get.put(AddRoomViewModel());
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Trang chủ', style: AppStyle.appBarText),
         actions: [
           IconButton(
-            onPressed: addRoomViewModel.showModalBottomSheetAction,
+            onPressed: viewModel.showModalBottomSheetAction,
             icon: const Icon(
               Icons.add_circle,
               color: AppColor.secondaryColor,
@@ -30,9 +30,9 @@ class HomeScreen extends StatelessWidget {
       body: Obx(
         () => ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 9),
-          itemCount: addRoomViewModel.rooms.length,
+          itemCount: viewModel.rooms.length,
           itemBuilder: (_, index) {
-            return RoomItem(room: addRoomViewModel.rooms[index]);
+            return RoomItem(room: viewModel.rooms[index]);
           },
         ),
       ),

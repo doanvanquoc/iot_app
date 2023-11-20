@@ -24,7 +24,7 @@ class AddRoomViewModel extends GetxController {
     'assets/images/bg6.png',
   ].obs;
 
-  RxString selectedImgUrl = ''.obs;
+  var selectedImgUrl = ''.obs;
 
   @override
   void onInit() {
@@ -54,6 +54,7 @@ class AddRoomViewModel extends GetxController {
         imgUrl: 'assets/images/bed_room2.png',
       ),
     ];
+    selectedImgUrl.value = imgs[0];
     super.onInit();
   }
 
@@ -64,8 +65,8 @@ class AddRoomViewModel extends GetxController {
   }
 
   void onBack() {
-    currentIndex.value--;
     Get.back();
+    currentIndex.value--;
     showModalBottomSheetAction();
   }
 
@@ -125,6 +126,5 @@ class AddRoomViewModel extends GetxController {
 
   void onSelectedChange(String url) {
     selectedImgUrl.value = url;
-    update();
   }
 }
