@@ -34,35 +34,33 @@ class AuthenticationRepository extends GetxController {
       phoneNumber: phoneNo,
       verificationCompleted: (credential) async {
         await _auth.signInWithCredential(credential);
+        
       },
       verificationFailed: (FirebaseAuthException e) {
-        // if (e.code == 'invalid-phone-number') {
-        //   Get.snackbar(
-        //     'Thông báo',
-        //     'Số điện thoại đăng nhập không hơp lệ!',
-        //     colorText: AppColor.primaryColor,
-        //     backgroundColor: const Color(0xffDDE6ED),
-        //     snackPosition: SnackPosition.TOP,
-        //   );
-        // } else {
-        //   Get.snackbar(
-        //     'Thông báo',
-        //     'Vui lòng điền đầy đủ thông tin!',
-        //     colorText: AppColor.primaryColor,
-        //     backgroundColor: const Color(0xffDDE6ED),
-        //     snackPosition: SnackPosition.TOP,
-        //   );
-        // }
-        throw Exception(e.message);
+        if (e.code == 'invalid-phone-number') {
+          Get.snackbar(
+            'Thông báo',
+            'Số điện thoại đăng nhập không hơp lệ!',
+            colorText: AppColor.primaryColor,
+            backgroundColor: const Color(0xffDDE6ED),
+            snackPosition: SnackPosition.TOP,
+          );
+        } else {
+          Get.snackbar(
+            'Thông báo',
+            'Vui lòng điền đầy đủ thông tin!',
+            colorText: AppColor.primaryColor,
+            backgroundColor: const Color(0xffDDE6ED),
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+        //6throw Exception(e.message);
       },
-      codeSent: (verificationId, forceResendingToken) {
-        print(phoneNo);
+      codeSent: ((verificationId, forceResendingToken) {
         verificationID.value = verificationId;
         _forceResendingToken = forceResendingToken;
-        print('OTP: ${verificationId}');
         viewModel.sendOTP();
-      },
-      timeout: const Duration(seconds: 60),
+      }),
       codeAutoRetrievalTimeout: ((verificationId) {
         verificationID.value = verificationId;
       }),

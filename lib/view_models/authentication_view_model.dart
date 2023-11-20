@@ -8,11 +8,10 @@ import 'package:iot_app/views/room/room_screen.dart';
 
 class AuthenticationViewModel extends GetxController {
   static AuthenticationViewModel get instance => Get.find();
-  final List<TextEditingController> _otpControllers = List.generate(
+  final List<TextEditingController> otpControllers = List.generate(
     6,
     (index) => TextEditingController(),
   );
-  List<TextEditingController> get otpControllers => _otpControllers;
 
   void phoneAuthentification(String phoneNo) {
     AuthenticationRepository.instance.phoneNumberAuthentication(phoneNo);
@@ -73,12 +72,22 @@ class AuthenticationViewModel extends GetxController {
   }
 
   Future<void> checkOTPCompletion() async {
-    if (isOTPComplete) {
-      verifyOTP();
+    if (timeLeft > 0) {
+      if (isOTPComplete) {
+        verifyOTP();
+      } else {
+        Get.snackbar(
+          'Thông báo',
+          'Vui lòng điền đầy đủ mã OTP!',
+          colorText: AppColor.primaryColor,
+          backgroundColor: const Color(0xffDDE6ED),
+          snackPosition: SnackPosition.TOP,
+        );
+      }
     } else {
       Get.snackbar(
         'Thông báo',
-        'Vui lòng điền đầy đủ mã OTP!',
+        'OTP không hợp lệ!',
         colorText: AppColor.primaryColor,
         backgroundColor: const Color(0xffDDE6ED),
         snackPosition: SnackPosition.TOP,

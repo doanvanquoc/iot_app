@@ -83,11 +83,9 @@ class AuthenticationScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 271),
-              Obx(
-                () => MyButton(
-                  text: 'Đăng nhập',
-                  onTap: viewModel.checkOTPCompletion,
-                ),
+              MyButton(
+                text: 'Đăng nhập',
+                onTap: viewModel.checkOTPCompletion,
               ),
             ],
           ),
