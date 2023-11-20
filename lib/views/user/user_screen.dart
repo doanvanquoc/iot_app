@@ -61,13 +61,13 @@ class UserScreen extends StatelessWidget {
               ),
 
               ColorTitle(
-                icon: Icons.person,
+                icon: Icons.settings,
                 text: "Cài đặt",
                 onTap: () {},
               ),
 
               ColorTitle(
-                icon: Icons.person,
+                icon: Icons.notifications,
                 text: "Thông báo",
                 onTap: () {
                    Navigator.push(context,MaterialPageRoute(builder: (context) => const NotificationScreen(),),);
@@ -75,7 +75,7 @@ class UserScreen extends StatelessWidget {
               ),
 
               ColorTitle(
-                icon: Icons.person,
+                icon: Icons.logout,
                 text: "Đăng xuất",
                 onTap: () {},
               ),
