@@ -56,9 +56,11 @@ class AuthenticationRepository extends GetxController {
         throw Exception(e.message);
       },
       codeSent: (verificationId, forceResendingToken) {
-        //viewModel.sendOTP();
+        print(phoneNo);
         verificationID.value = verificationId;
         _forceResendingToken = forceResendingToken;
+        print('OTP: ${verificationId}');
+        viewModel.sendOTP();
       },
       timeout: const Duration(seconds: 60),
       codeAutoRetrievalTimeout: ((verificationId) {

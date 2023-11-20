@@ -27,8 +27,10 @@ class LoginViewModel extends GetxController {
   }
 
   void sendOTP() {
+    print(phoneNumber.value);
     print('go to auth');
-    Get.to(AuthenticationScreen(), arguments: phoneNumber.value.toString());
+    //Get.to(() => AuthenticationScreen(), arguments: phoneNumber.value);
+    Get.toNamed('/auth-screen', arguments: phoneNumber.value);
     viewModelAuth.startTime();
   }
 

@@ -8,10 +8,11 @@ import 'package:iot_app/views/room/room_screen.dart';
 
 class AuthenticationViewModel extends GetxController {
   static AuthenticationViewModel get instance => Get.find();
-  final List<TextEditingController> otpControllers = List.generate(
+  final List<TextEditingController> _otpControllers = List.generate(
     6,
     (index) => TextEditingController(),
   );
+  List<TextEditingController> get otpControllers => _otpControllers;
 
   void phoneAuthentification(String phoneNo) {
     AuthenticationRepository.instance.phoneNumberAuthentication(phoneNo);

@@ -9,7 +9,7 @@ class AuthenticationScreen extends StatelessWidget {
   AuthenticationScreen({super.key});
 
   final AuthenticationViewModel viewModel = Get.put(AuthenticationViewModel());
-  final String phoneNumber = Get.arguments;
+  final String? phoneNumber = Get.arguments;
   //final String verifycationId;
 
   @override
@@ -67,7 +67,7 @@ class AuthenticationScreen extends StatelessWidget {
                 () => TextButton(
                   onPressed: () {
                     viewModel.resCode.value
-                        ? viewModel.resendCode(phoneNumber)
+                        ? viewModel.resendCode(phoneNumber!)
                         : null;
                   },
                   child: Text(

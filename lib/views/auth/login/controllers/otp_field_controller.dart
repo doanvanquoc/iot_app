@@ -33,10 +33,8 @@ class OTPFieldController extends StatelessWidget {
               ),
             ),
           ),
-          
         );
       }),
-      
     );
   }
 }

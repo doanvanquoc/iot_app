@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iot_app/firebase_options.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
+import 'package:iot_app/views/auth/login/authentication_screen.dart';
 import 'package:iot_app/views/auth/login/login_screen.dart';
 
 void main() async {
@@ -14,6 +15,18 @@ void main() async {
   Get.put(AuthenticationRepository());
   runApp(const MyApp());
 }
+
+final List<GetPage> routes = [
+  GetPage(
+    name: '/login-screen',
+    page: () => LoginScreen(),
+  ),
+  GetPage(
+    name: '/auth-screen',
+    page: () => AuthenticationScreen(),
+  ),
+  // Thêm các routes khác tại đây
+];
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,7 +42,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
       ),
-      home: LoginScreen(),
+      initialRoute: '/login-screen',
+      getPages: routes,
     );
   }
 }

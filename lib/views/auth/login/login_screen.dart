@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/views/auth/login/authentication_screen.dart';
@@ -111,6 +112,9 @@ class LoginScreen extends StatelessWidget {
                         print('test input pas');
                         AuthenticationViewModel.instance
                             .phoneAuthentification('+84${phoneNo.text.trim()}');
+                        // AuthenticationRepository.instance
+                        //     .phoneNumberAuthentication(
+                        //         '+84${phoneNo.text.trim()}');
                       } else {
                         Get.snackbar(
                           'Thông báo',
