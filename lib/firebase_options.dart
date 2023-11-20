@@ -26,7 +26,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -56,15 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'smarthome-arduino-53a4f',
     databaseURL: 'https://smarthome-arduino-53a4f-default-rtdb.firebaseio.com',
     storageBucket: 'smarthome-arduino-53a4f.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBxgGQKIzDgH8v6m_DofzaUOHvHZ4fJNLE',
-    appId: '1:291507479918:ios:7b9e45726b83cd30fb0d7f',
-    messagingSenderId: '291507479918',
-    projectId: 'smarthome-arduino-53a4f',
-    databaseURL: 'https://smarthome-arduino-53a4f-default-rtdb.firebaseio.com',
-    storageBucket: 'smarthome-arduino-53a4f.appspot.com',
-    iosBundleId: 'com.example.iotApp',
   );
 }
