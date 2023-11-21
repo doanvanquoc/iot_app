@@ -32,9 +32,8 @@ class AuthenticationRepository extends GetxController {
   Future<void> phoneNumberAuthentication(String phoneNo) async {
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNo,
-      verificationCompleted: (credential) async {
-        await _auth.signInWithCredential(credential);
-        
+      verificationCompleted: (credential) {
+        //await _auth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {
