@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 
-class OTPFieldController extends StatelessWidget {
-  OTPFieldController({Key? key}) : super(key: key);
+class OTPField extends StatelessWidget {
+  OTPField({Key? key, required this.idx}) : super(key: key);
 
   final AuthenticationViewModel otpField = Get.find();
+  final idx;
 
   @override
   Widget build(BuildContext context) {

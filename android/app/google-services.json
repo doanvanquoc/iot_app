@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:291507479918:android:345c361ee153a82efb0d7f",
         "android_client_info": {
-          "package_name": "com.example.iot_app" 
+          "package_name": "com.example.iot_app"
         }
       },
       "oauth_client": [],

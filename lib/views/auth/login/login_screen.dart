@@ -5,15 +5,19 @@ import 'package:iot_app/common/widgets/my_button.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
-import 'package:iot_app/views/auth/login/authentication_screen.dart';
-import 'package:iot_app/views/auth/login/controllers/phone_number_controller.dart';
-import 'package:iot_app/views/auth/login/controllers/segmented_controller.dart';
+import 'package:iot_app/views/auth/login/widgets/phone_number_widget.dart';
+import 'package:iot_app/views/auth/login/widgets/segmented_widget.dart';
+import 'package:iot_app/views/home/home_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
   final LoginViewModel viewModel = Get.put(LoginViewModel());
 
   final phoneNo = TextEditingController();
   final email = TextEditingController();
+  final password = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   LoginScreen({super.key});
 
@@ -21,115 +25,199 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/logo.png',
-              fit: BoxFit.cover,
-              height: MediaQuery.of(context).size.height / 2,
-              color: AppColor.primaryColor,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Đăng Nhập Tài Khoản',
-                      style: TextStyle(
-                        fontSize: 27,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff484D51),
-                      )),
-                  const SizedBox(height: 24),
-                  SegmentedController(viewModel: viewModel),
-                  const SizedBox(height: 24),
-                  Obx(() {
-                    if (viewModel.selectedSegment.value == 1) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: PhoneNumberController(),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 3,
-                            child: SizedBox(
-                              height: 56,
-                              child: TextFormField(
-                                controller: phoneNo,
-                                onChanged: (value) =>
-                                    viewModel.phoneNumber.value = value,
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: false),
-                                style: const TextStyle(
-                                  color: Color(0xff484D51),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height / 2,
+                  color: AppColor.primaryColor,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Đăng Nhập Tài Khoản',
+                          style: TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff484D51),
+                          )),
+                      const SizedBox(height: 24),
+                      SegmentedController(viewModel: viewModel),
+                      const SizedBox(height: 24),
+                      Obx(() {
+                        if (viewModel.selectedSegment.value == 1) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: PhoneNumberController(),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                flex: 3,
+                                child: SizedBox(
+                                  height: 56,
+                                  child: TextFormField(
+                                    controller: phoneNo,
+                                    onChanged: (value) =>
+                                        viewModel.phoneNumber.value = value,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            decimal: false),
+                                    style: const TextStyle(
+                                      color: Color(0xff484D51),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(16),
+                                    ),
                                   ),
-                                  contentPadding: const EdgeInsets.all(16),
                                 ),
                               ),
+                            ],
+                          );
+                        } else {
+                          return SizedBox(
+                            height: 128,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: email,
+                                  onChanged: (value) =>
+                                      viewModel.email.value = value,
+                                  style: const TextStyle(
+                                    color: Color(0xff484D51),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    hintText: 'your_email@gmail.com',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.all(16),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  controller: password,
+                                  onChanged: (value) =>
+                                      viewModel.password.value = value,
+                                  style: const TextStyle(
+                                    color: Color(0xff484D51),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    contentPadding: const EdgeInsets.all(16),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return SizedBox(
-                        height: 56,
-                        child: TextFormField(
-                          controller: email,
-                          onChanged: (value) => viewModel.email(value),
-                          style: const TextStyle(
-                            color: Color(0xff484D51),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            hintText: 'your_email@gmail.com',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            contentPadding: const EdgeInsets.all(16),
-                          ),
-                        ),
-                      );
-                    }
-                  }),
-                  const SizedBox(height: 24),
-                  // Obx(
-                  //() =>
-                  MyButton(
-                    text: 'Gửi mã OTP',
-                    onTap: () {
-                      if (viewModel.checkInPutCompletion) {
-                        print('test input pas');
-                        AuthenticationViewModel.instance
-                            .phoneAuthentification('+84${phoneNo.text.trim()}');
-                      } else {
-                        Get.snackbar(
-                          'Thông báo',
-                          'Vui lòng điền đầy đủ thông tin!',
-                          colorText: AppColor.primaryColor,
-                          backgroundColor: const Color(0xffDDE6ED),
-                          snackPosition: SnackPosition.TOP,
-                        );
-                      }
-                    },
+                          );
+                        }
+                      }),
+                      Obx(() {
+                        if (viewModel.selectedSegment.value == 1) {
+                          return const SizedBox(height: 96);
+                        } else {
+                          return const SizedBox(height: 24);
+                        }
+                      }),
+                      Obx(() {
+                        if (viewModel.selectedSegment.value == 1) {
+                          return MyButton(
+                            text: 'Gửi mã OTP',
+                            onTap: () {
+                              if (viewModel.checkInPutCompletion) {
+                                AuthenticationViewModel.instance
+                                    .phoneAuthentification(
+                                        '+84${phoneNo.text.trim()}');
+                              } else {
+                                AuthenticationRepository
+                                    .instance.isLoading.value = false;
+                                Get.snackbar(
+                                  'Thông báo',
+                                  'Vui lòng điền đầy đủ thông tin!',
+                                  colorText: AppColor.primaryColor,
+                                  backgroundColor: const Color(0xffDDE6ED),
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                              }
+                            },
+                          );
+                        } else {
+                          return MyButton(
+                            text: 'Đăng nhập',
+                            onTap: () {
+                              if (viewModel.checkInPutCompletion) {
+                                viewModel.signInWithEmailAndPassword();
+                              } else {
+                                Get.snackbar(
+                                  'Thông báo',
+                                  'Vui lòng điền đầy đủ thông tin!',
+                                  colorText: AppColor.primaryColor,
+                                  backgroundColor: const Color(0xffDDE6ED),
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                                AuthenticationRepository
+                                    .instance.isLoading.value = false;
+                              }
+                            },
+                          );
+                        }
+                      })
+                    ],
                   ),
-                  //)
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+        Obx(() {
+          if (viewModel.selectedSegment.value == 1) {
+            if (AuthenticationRepository.instance.isLoading.value) {
+              return Container(
+                color: Colors.black.withOpacity(0.3),
+                child: Center(
+                  child: Lottie.asset('assets/lotties/loading.json'),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          } else {
+            if (viewModel.isSuccess.value) {
+              Future.delayed(const Duration(seconds: 2), () {
+                Get.offAll(() => const HomeScreen());
+              });
+              return Container(
+                color: Colors.black.withOpacity(0.3),
+                child: Center(
+                  child: Lottie.asset('assets/lotties/success.json'),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }
+        }),
+      ]),
     );
   }
 }
