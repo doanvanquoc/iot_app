@@ -38,21 +38,21 @@ class AddRoomViewModel extends GetxController {
       Room(
         name: 'Phòng khách',
         totalDevices: 3,
-        turningDevices: 2,
+        turningDevices: 3,
         imgUrl: 'assets/images/living_room.png',
       ),
-      Room(
-        name: 'Phòng ngủ 1',
-        totalDevices: 3,
-        turningDevices: 2,
-        imgUrl: 'assets/images/bed_room1.png',
-      ),
-      Room(
-        name: 'Phòng ngủ 2',
-        totalDevices: 3,
-        turningDevices: 2,
-        imgUrl: 'assets/images/bed_room2.png',
-      ),
+      // Room(
+      //   name: 'Phòng ngủ 1',
+      //   totalDevices: 3,
+      //   turningDevices: 2,
+      //   imgUrl: 'assets/images/bed_room1.png',
+      // ),
+      // Room(
+      //   name: 'Phòng ngủ 2',
+      //   totalDevices: 3,
+      //   turningDevices: 2,
+      //   imgUrl: 'assets/images/bed_room2.png',
+      // ),
     ];
     selectedImgUrl.value = imgs[0];
     super.onInit();
