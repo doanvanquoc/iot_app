@@ -46,7 +46,7 @@ class DeviceScreen extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16.0,
-              childAspectRatio: 1.32,
+              childAspectRatio: 1.2,
             ),
             itemCount: deviceViewModel.devices.length,
             itemBuilder: (_, int index) {
