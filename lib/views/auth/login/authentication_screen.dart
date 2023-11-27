@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/main.dart';
+import 'package:iot_app/my_app.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/views/auth/login/widgets/otp_wiget.dart';
 import 'package:iot_app/views/home/home_screen.dart';
@@ -98,7 +100,7 @@ class AuthenticationScreen extends StatelessWidget {
       Obx(() {
         if (viewModel.isSucess.value) {
           Future.delayed(const Duration(seconds: 2), () {
-            Get.offAll(() => const HomeScreen());
+            Get.offAll(() => const NavScreen());
           });
           return Container(
             color: Colors.black.withOpacity(0.3),

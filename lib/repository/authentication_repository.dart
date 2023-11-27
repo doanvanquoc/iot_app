@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/my_app.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/views/auth/login/login_screen.dart';
 import 'package:iot_app/views/home/home_screen.dart';
@@ -27,7 +28,7 @@ class AuthenticationRepository extends GetxController {
   setInitialScreen(User? user) {
     user == null
         ? Get.offAll(() => LoginScreen())
-        : Get.offAll(() => const HomeScreen());
+        : Get.offAll(() => const NavScreen());
     //: Get.offAll(() => AuthenticationScreen(idx: 2));
   }
 

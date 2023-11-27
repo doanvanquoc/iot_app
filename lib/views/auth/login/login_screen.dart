@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
+import 'package:iot_app/main.dart';
+import 'package:iot_app/my_app.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/views/auth/login/widgets/phone_number_widget.dart';
 import 'package:iot_app/views/auth/login/widgets/segmented_widget.dart';
-import 'package:iot_app/views/home/home_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -128,7 +129,8 @@ class LoginScreen extends StatelessWidget {
                                             : Icons.visibility,
                                       ),
                                       onPressed: () {
-                                        viewModel.isObs.value = !viewModel.isObs.value;
+                                        viewModel.isObs.value =
+                                            !viewModel.isObs.value;
                                         (context as Element).markNeedsBuild();
                                       },
                                     ),
@@ -216,7 +218,7 @@ class LoginScreen extends StatelessWidget {
           } else {
             if (viewModel.isSuccess.value) {
               Future.delayed(const Duration(seconds: 2), () {
-                Get.offAll(() => const HomeScreen());
+                Get.offAll(() => const NavScreen());
               });
               return Container(
                 color: Colors.black.withOpacity(0.3),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/common/widgets/my_bottom_nav_bar.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 import '../../common/widgets/my_card.dart';
@@ -36,6 +37,7 @@ class DeviceScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const MyBottomNavBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Obx(
