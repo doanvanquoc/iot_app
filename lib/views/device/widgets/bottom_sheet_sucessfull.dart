@@ -5,13 +5,13 @@ import 'package:iot_app/common/widgets/my_button.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class BottomSheetSucessfull extends StatelessWidget {
-  BottomSheetSucessfull({
+  const BottomSheetSucessfull({
     super.key,
     required this.onDone,
     required this.onCanel,
   });
-  Function() onDone;
-  Function() onCanel;
+  final Function() onDone;
+  final Function() onCanel;
   @override
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
