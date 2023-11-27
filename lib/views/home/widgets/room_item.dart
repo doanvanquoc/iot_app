@@ -5,16 +5,16 @@ import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/models/room.dart';
 
 class RoomItem extends StatelessWidget {
-  const RoomItem({super.key, required this.room, required this.onTap});
+  const RoomItem({super.key, required this.room});
   final Room room;
-  final Function() onTap;
+  // final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: onTap,
+          // onTap: onTap,
           child: Stack(
             children: [
               Container(
