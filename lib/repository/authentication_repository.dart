@@ -5,7 +5,6 @@ import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/views/auth/login/login_screen.dart';
 import 'package:iot_app/views/home/home_screen.dart';
-import 'package:iot_app/views/room/room_screen.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();

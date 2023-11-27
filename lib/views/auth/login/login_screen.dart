@@ -111,6 +111,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
+                                  obscureText: viewModel.isObs.value,
                                   controller: password,
                                   onChanged: (value) =>
                                       viewModel.password.value = value,
@@ -120,6 +121,17 @@ class LoginScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                   decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        viewModel.isObs.value
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        viewModel.isObs.value = !viewModel.isObs.value;
+                                        (context as Element).markNeedsBuild();
+                                      },
+                                    ),
                                     hintText: 'Password',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
@@ -209,7 +221,7 @@ class LoginScreen extends StatelessWidget {
               return Container(
                 color: Colors.black.withOpacity(0.3),
                 child: Center(
-                  child: Lottie.asset('assets/lotties/success.json'),
+                  child: Lottie.asset('assets/lotties/loading.json'),
                 ),
               );
             } else {

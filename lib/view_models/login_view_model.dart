@@ -20,6 +20,7 @@ class LoginViewModel extends GetxController {
   int? idx;
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   var isSuccess = false.obs;
+  RxBool isObs = true.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
   final Rx<User?> _firebaseUser = Rx<User?>(null);
