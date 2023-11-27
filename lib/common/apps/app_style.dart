@@ -4,6 +4,7 @@ class AppStyle {
   static const appBarText = TextStyle(
     color: Color(0xff484D51),
     fontSize: 24,
+    fontWeight: FontWeight.w600,
   ); // Style text appbar
 
   static const onImagePrimaryText = TextStyle(
@@ -30,7 +31,7 @@ class AppStyle {
   static const buttonText = TextStyle(
     color: Color(0xffF7FBFC),
     fontSize: 16,
-    // fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
   );
 }
 

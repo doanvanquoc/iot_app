@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColor {
   static const primaryColor = Color(0xffFF7B54); //màu chủ đạo
   static const secondaryColor = Color(0xff8FACC0); //màu xám đậm
-  static const backgroundColor = Color(0xffDDE6ED); //màu xám nhạt
+  static const backgroundColor = Color(0xffF7FBFC); //màu xám nhạt
 }
 
 //HDSD => color: AppColor.primaryColor.....
