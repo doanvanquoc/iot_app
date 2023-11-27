@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/views/device/device_screen.dart';
 import 'package:iot_app/views/home/home_screen.dart';
+import 'package:iot_app/views/user/user_screen.dart';
 
 class NavViewModel extends GetxController {
   List<Widget> screens = [];
@@ -11,7 +12,7 @@ class NavViewModel extends GetxController {
 
   @override
   void onInit() {
-    screens = [const HomeScreen(), const DeviceScreen()];
+    screens = [const HomeScreen(), const DeviceScreen(), const UserScreen()];
     super.onInit();
   }
 
