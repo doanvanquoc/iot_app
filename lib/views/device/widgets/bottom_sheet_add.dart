@@ -15,10 +15,11 @@ class BottomSheetAdd extends StatelessWidget {
     final textController = TextEditingController();
     textController.text = deviceViewModel.nameDevice.value;
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.35,
+      // height: MediaQuery.of(context).size.height * 0.35,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(

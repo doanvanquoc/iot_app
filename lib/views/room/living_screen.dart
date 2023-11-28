@@ -13,7 +13,6 @@ class living_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final addRoomViewModel = Get.put(AddRoomViewModel());
     final deviceViewModel = Get.put(DeviceViewModel());
     return Scaffold(
       appBar: AppBar(
