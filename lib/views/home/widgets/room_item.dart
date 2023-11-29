@@ -65,6 +65,7 @@ class RoomItem extends StatelessWidget {
                   'assets/images/led.png',
                   width: 30,
                   height: 30,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(width: 8),
@@ -74,6 +75,7 @@ class RoomItem extends StatelessWidget {
                   'assets/images/led.png',
                   width: 30,
                   height: 30,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(width: 8),
@@ -82,6 +84,7 @@ class RoomItem extends StatelessWidget {
                   'assets/images/led.png',
                   width: 30,
                   height: 30,
+                  color: Colors.white,
                 ),
               )
             ],
