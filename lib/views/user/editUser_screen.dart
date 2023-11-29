@@ -9,7 +9,6 @@ class EditUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: const Text("Thông tin tài khoản"),
       ),
@@ -63,7 +62,7 @@ class EditUserScreen extends StatelessWidget {
                         ),
 
                       ),
-                      child: const Icon(Icons.camera_alt_rounded, color: Colors.black, size: 20),
+                      child: const Icon(Icons.camera_alt_rounded, color: Colors.white, size: 20),
                     ),
                   ),
                 ],
@@ -80,7 +79,7 @@ class EditUserScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextEditUser(text: 'Thông tin tài khoản'),
+                      const TextEditUser(text: 'Tên đăng nhập'),
                       const SizedBox(height: 15),
 
                       const TextEditUser(text: 'Email'),
@@ -99,7 +98,6 @@ class EditUserScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
