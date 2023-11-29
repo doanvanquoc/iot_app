@@ -9,6 +9,7 @@ class EditUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: const Text("Thông tin tài khoản"),
       ),

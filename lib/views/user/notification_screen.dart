@@ -9,96 +9,108 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
-        title: const Text("Thông báo",style: AppStyle.appBarText,),
+        title: const Text(
+          "Thông báo",
+          style: AppStyle.appBarText,
+        ),
       ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: ListView(
-            shrinkWrap: true,
-            children: const [
-              CardNotification(
-                deviceName: 'Mở cửa',
-                area: 'chính',
-                icon: Icons.door_front_door_outlined,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-
-              CardNotification(
-                deviceName: 'Bật đèn',
-                area: 'Phòng khách',
-                icon: Icons.light_mode_sharp,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Tắt đèn',
-                area: 'Phòng khách',
-                icon: Icons.nightlight,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Bật đèn',
-                area: 'Phòng bếp',
-                icon: Icons.light_mode_sharp,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Tắt đèn',
-                area: 'phòng bếp',
-                icon: Icons.nightlight,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Mở cửa',
-                area: 'chính',
-                icon: Icons.door_front_door_outlined,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Mở cửa',
-                area: 'chính',
-                icon: Icons.door_front_door_outlined,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-
-              CardNotification(
-                deviceName: 'Mở cửa',
-                area: 'chính',
-                icon: Icons.door_front_door_outlined,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-              SizedBox(height: 10,),
-              
-              CardNotification(
-                deviceName: 'Mở cửa',
-                area: 'chính',
-                icon: Icons.door_front_door_outlined,
-                time: '12:59:59',
-                date: '10/10/2023',
-              ),
-            ],
-          ),
+          shrinkWrap: true,
+          children: const [
+            CardNotification(
+              deviceName: 'Mở cửa',
+              area: 'chính',
+              icon: Icons.door_front_door_outlined,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Bật đèn',
+              area: 'Phòng khách',
+              icon: Icons.light_mode_sharp,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Tắt đèn',
+              area: 'Phòng khách',
+              icon: Icons.nightlight,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Bật đèn',
+              area: 'Phòng bếp',
+              icon: Icons.light_mode_sharp,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Tắt đèn',
+              area: 'phòng bếp',
+              icon: Icons.nightlight,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Mở cửa',
+              area: 'chính',
+              icon: Icons.door_front_door_outlined,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Mở cửa',
+              area: 'chính',
+              icon: Icons.door_front_door_outlined,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Mở cửa',
+              area: 'chính',
+              icon: Icons.door_front_door_outlined,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CardNotification(
+              deviceName: 'Mở cửa',
+              area: 'chính',
+              icon: Icons.door_front_door_outlined,
+              time: '12:59:59',
+              date: '10/10/2023',
+            ),
+          ],
+        ),
       ),
-      );
+    );
   }
 }

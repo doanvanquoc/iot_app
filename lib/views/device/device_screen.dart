@@ -15,6 +15,7 @@ class DeviceScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'Thiết bị',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),

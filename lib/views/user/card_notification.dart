@@ -21,7 +21,7 @@ class CardNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width- 20,
+      width: MediaQuery.of(context).size.width - 20,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -31,7 +31,9 @@ class CardNotification extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 70),
-          const SizedBox(width: 20,),
+          const SizedBox(
+            width: 20,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

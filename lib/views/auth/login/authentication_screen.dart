@@ -24,6 +24,7 @@ class AuthenticationScreen extends StatelessWidget {
       Scaffold(
         backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: const Text(
