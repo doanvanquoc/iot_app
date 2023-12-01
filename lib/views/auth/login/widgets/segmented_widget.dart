@@ -23,8 +23,8 @@ class SegmentedController extends StatelessWidget {
           initialValue: 1,
           onValueChanged: viewModel.onSegmentChanged,
           children: {
-            1: _buildSegmentText('Số điện thoại', 1),
-            2: _buildSegmentText('Email', 2),
+            1: _buildSegmentText('Email', 1),
+            2: _buildSegmentText('Số điện thoại', 2),
           },
           decoration: const BoxDecoration(
             color: Color(0xffF4F9F9),

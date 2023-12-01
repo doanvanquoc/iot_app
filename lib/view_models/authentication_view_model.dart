@@ -1,22 +1,74 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/models/user.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
-import 'package:iot_app/views/home/home_screen.dart';
+import 'package:iot_app/view_models/login_view_model.dart';
+import 'package:iot_app/view_models/navigation_view_model.dart';
+import 'package:iot_app/views/auth/login/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationViewModel extends GetxController {
-  static AuthenticationViewModel get instance => Get.find();
-  final List<TextEditingController> otpControllers = List.generate(
-    6,
-    (index) => TextEditingController(),
-  );
+  static LoginViewModel viewModel = Get.put(LoginViewModel());
+  static AuthenticationViewModel get instance =>
+      Get.put(AuthenticationViewModel());
+
+  List<TextEditingController> otpControllers =
+      List.generate(6, (index) => TextEditingController());
   var otpValues = List.filled(6, '').obs;
-  var isSucess = false.obs;
+  var timeLeft = 60.obs;
+  var isSuccess = false.obs;
+  Timer? _timer;
+  RxBool resCode = false.obs;
+  bool get isOTPComplete =>
+      otpValues.every((value) => value.trim().length == 1);
+  Rx<User?> firebaseUser = Rx<User?>(null);
+
+    @override
+  void onInit() {
+    super.onInit();
+    startTime();
+  }
+
+  @override
+  void onClose() {
+    for (var controller in otpControllers) {
+      controller.dispose();
+    }
+    _timer?.cancel();
+    super.onClose();
+  }
+
+  void resetOTPFields() {
+    otpValues.value = List.filled(6, '');
+    otpControllers = List.generate(6, (index) => TextEditingController());
+  }
 
   void phoneAuthentification(String phoneNo) {
+    resetOTPFields();
     AuthenticationRepository.instance.phoneNumberAuthentication(phoneNo);
+  }
+
+  Future<UserModel?> getUserByPhoneNo(String phoneNumber) async {
+    try {
+      var usersRef = FirebaseFirestore.instance.collection('users');
+      var querySnapshot =
+          await usersRef.where('phoneNo', isEqualTo: phoneNumber).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        var userData = querySnapshot.docs.first.data();
+        return UserModel.fromMap(userData);
+      }
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   void verifyOTP() async {
@@ -24,7 +76,28 @@ class AuthenticationViewModel extends GetxController {
     var isVerify = await AuthenticationRepository.instance.verifyOTP(otp);
 
     if (isVerify) {
-      isSucess.value = true;
+      isSuccess.value = true;
+      var loginViewModel = Get.find<LoginViewModel>();
+      var normalizedPhoneNo =
+          AuthenticationRepository.instance.normalizePhoneNumber(
+        loginViewModel.phoneNumber.value,
+        loginViewModel.selectedCountryCode.value,
+      );
+
+      var userResult = await AuthenticationRepository.instance
+          .getUserByPhoneNo(normalizedPhoneNo);
+
+      if (userResult != null) {
+        print('verifyOTP: $userResult');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String userData = jsonEncode(userResult.toJson());
+        await prefs.setString('userData', userData);
+
+        GlobalModel.instance.setAuthenticatedUser(userResult);
+      } else {
+        print('error:');
+      }
     } else {
       Get.snackbar(
         'Thông báo',
@@ -35,12 +108,6 @@ class AuthenticationViewModel extends GetxController {
       );
     }
   }
-
-  var timeLeft = 60.obs;
-  Timer? _timer;
-  RxBool resCode = false.obs;
-  bool get isOTPComplete =>
-      otpValues.every((value) => value.trim().length == 1);
 
   void onOTPChanged(String value, int index, BuildContext buildContext) {
     otpValues[index] = value;
@@ -72,11 +139,6 @@ class AuthenticationViewModel extends GetxController {
     startTime();
   }
 
-  // void resendLink(String email) {
-  //   phoneAuthentification(email);
-  //   startTime();
-  // }
-
   Future<void> checkOTPCompletion() async {
     if (timeLeft > 0) {
       if (isOTPComplete) {
@@ -101,56 +163,41 @@ class AuthenticationViewModel extends GetxController {
     }
   }
 
-  // void emailVerification() {
-  //   AuthenticationRepository.instance.sendEmailVerification();
-  // }
-
-  // void setTimerForAutoRedirect() {
-  //   _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-  //     FirebaseAuth.instance.currentUser?.reload();
-  //     final user = FirebaseAuth.instance.currentUser;
-  //     if (user != null && user.emailVerified) {
-  //       timer.cancel();
-  //       AuthenticationRepository.instance.setInitialScreen(user);
-  //     }
-  //   });
-  // }
-
-  // void manuallyCheckEmailVerificationStatus() {
-  //   FirebaseAuth.instance.currentUser?.reload();
-  //   final user = FirebaseAuth.instance.currentUser;
-  //   if (user!.emailVerified) {
-  //     AuthenticationRepository.instance.setInitialScreen(user);
-  //   }
-  // }
-
-//   void EmailAuthentification(String email) {
-//   if (isEmail(email)) {
-//     AuthenticationRepository.instance.emailAuthentication(email);
-//   } else {
-//     Get.snackbar(
-//       'Thông báo',
-//       'Email không hợp lệ!',
-//       colorText: AppColor.primaryColor,
-//       backgroundColor: const Color(0xffDDE6ED),
-//       snackPosition: SnackPosition.TOP,
-//     );
-//   }
-// }
-
-  @override
-  void onInit() {
-    super.onInit();
-    startTime();
-    //setTimerForAutoRedirect();
-  }
-
-  @override
-  void onClose() {
-    for (var controller in otpControllers) {
-      controller.dispose();
-    }
-    _timer?.cancel();
-    super.onClose();
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Thông báo'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Bạn chắc chắn muốn đăng xuất?'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Đóng'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: const Text('Đăng xuất'),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                isSuccess.value = false;
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove('userData');
+                firebaseUser.value = null;
+                Get.offAll(() => LoginScreen());
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

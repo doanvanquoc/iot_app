@@ -99,7 +99,7 @@ class AuthenticationScreen extends StatelessWidget {
         ),
       ),
       Obx(() {
-        if (viewModel.isSucess.value) {
+        if (viewModel.isSuccess.value) {
           Future.delayed(const Duration(seconds: 2), () {
             Get.offAll(() => const NavScreen());
           });
