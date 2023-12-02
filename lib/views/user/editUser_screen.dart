@@ -10,7 +10,7 @@ class EditUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EditUserViewModel viewModel = Get.find<EditUserViewModel>();
+    final EditUserViewModel viewModel = Get.put(EditUserViewModel());
 
     return Scaffold(
       appBar: AppBar(
