@@ -20,7 +20,7 @@ class Device {
   final String nameDevice;
   final int idArea;
   final IconData icon;
-  bool state; // Removed 'final' to make it mutable
+  bool state;
 
   Device({
     required this.idDevice,

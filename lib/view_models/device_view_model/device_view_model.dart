@@ -45,26 +45,21 @@ class DeviceViewModel extends GetxController {
     fetchRealtimeData();
   }
 
+  
   void fetchRealtimeData() {
     // Fetch areas
     database.ref().child('myhome/area').onValue.listen((event) {
       final areaData = event.snapshot.value as List<dynamic>?;
       if (areaData != null) {
-        areas.value = areaData
-            .where((item) => item != null)
-            .map((json) => Area.fromJson(Map<String, dynamic>.from(json)))
-            .toList();
+        areas.value = areaData.where((item) => item != null).map((json) => Area.fromJson(Map<String, dynamic>.from(json))).toList();
       }
     });
 
     // Fetch devices
     database.ref().child('myhome/device').onValue.listen((event) {
-      final deviceData = event.snapshot.value as Map<dynamic, dynamic>?;
+      final deviceData = event.snapshot.value as List<dynamic>?;
       if (deviceData != null) {
-        devices.value = deviceData.entries
-            .map((entry) =>
-                Device.fromJson(Map<String, dynamic>.from(entry.value)))
-            .toList();
+        devices.value = deviceData.where((item) => item != null).map((json) => Device.fromJson(Map<String, dynamic>.from(json))).toList();
       }
     });
   }
@@ -96,22 +91,20 @@ class DeviceViewModel extends GetxController {
     selectedIndex.value = index;
   }
 
-  void onHandelSwitch(bool pres, int id) {
-    var deviceIndex = devices.indexWhere((d) => d.idDevice == id);
-    if (deviceIndex != -1) {
-      // Update the local state
-      devices[deviceIndex].state = pres;
+void onHandelSwitch(bool pres, int id) {
+  var deviceIndex = devices.indexWhere((d) => d.idDevice == id);
+  if (deviceIndex != -1) {
+    devices[deviceIndex].state = pres;
 
-      // Update the state in Firebase Realtime Database
-      // Ensure the path correctly targets the specific device
-      database
-          .ref('myhome/device')
-          .child('light$id') // Adjusted to use 'id' directly
-          .update({'state': pres});
+    // Update Firebase Realtime Database
+    database.ref('myhome/device')
+        .child('$deviceIndex') // Use deviceIndex for Firebase path
+        .update({'state': pres});
 
-      update(); // Trigger a UI update
-    }
+    update(); // Update the UI
   }
+}
+
 
   void onNext() {
     currentIndex++;

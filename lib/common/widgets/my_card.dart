@@ -14,7 +14,6 @@ class MyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
 
-    // Find the area name corresponding to the idArea of the device
     String areaName = deviceViewModel.areas
         .firstWhere((area) => area.idArea == device.idArea,
             orElse: () => Area(idArea: -1, nameArea: 'Unknown'))
