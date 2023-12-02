@@ -1,13 +1,13 @@
 class Area {
-  final int idArea;
-  final String nameArea;
+  final int id;
+  final String name;
 
-  Area({required this.idArea, required this.nameArea});
+  Area({required this.id, required this.name});
 
   factory Area.fromJson(Map<String, dynamic> json) {
     return Area(
-      idArea: json['idArea'],
-      nameArea: json['nameArea'],
+      id: json['id'],
+      name: json['name'],
     );
   }
 }

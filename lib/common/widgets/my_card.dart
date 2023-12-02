@@ -15,9 +15,9 @@ class MyCard extends StatelessWidget {
     DeviceViewModel deviceViewModel = Get.find();
 
     String areaName = deviceViewModel.areas
-        .firstWhere((area) => area.idArea == device.idArea,
-            orElse: () => Area(idArea: -1, nameArea: 'Unknown'))
-        .nameArea;
+        .firstWhere((area) => area.id == device.areaId,
+            orElse: () => Area(id: -1, name: 'Unknown'))
+        .name;
 
     return Container(
       width: MediaQuery.of(context).size.width / 2 - 20,
@@ -34,18 +34,20 @@ class MyCard extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(device.icon, size: 40), // Ensure the icon is handled correctly
+                Icon(device.icon,
+                    size: 40), // Ensure the icon is handled correctly
                 CupertinoSwitch(
-                    value: deviceViewModel.devices[device.idDevice - 1].state,
-                    onChanged: (value) => deviceViewModel.onHandelSwitch(
-                        value, device.idDevice),
+                    value: deviceViewModel.devices[device.id - 1].state,
+                    onChanged: (value) =>
+                        deviceViewModel.onHandelSwitch(value, device.id),
                     activeColor: AppColor.primaryColor),
               ],
             );
           }),
           const SizedBox(height: 16),
-          Text(device.nameDevice, style: AppStyle.onCardPrimaryText),
-          Text(areaName, style: AppStyle.onCardSecondaryText), // Display area name
+          Text(device.name, style: AppStyle.onCardPrimaryText),
+          Text(areaName,
+              style: AppStyle.onCardSecondaryText), // Display area name
         ],
       ),
     );

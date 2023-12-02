@@ -13,19 +13,8 @@ class DeviceViewModel extends GetxController {
   var selectedIndex = 0.obs;
   var nameDevice = "".obs;
 
-  //RxList<Device> devices = <Device>[].obs;
   List<Widget> lstModel = [];
   List<String> lstNameRoom = [];
-  //final FirebaseDatabase database = FirebaseDatabase.instance;
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   initializeBottomSheets();
-  //   //initializeRooms();
-  //   fetchRealtimeData(); // Fetch initial data
-  //   //loadInitialDevices(); // Load initial static devices
-  // }
 
   void initializeBottomSheets() {
     lstModel = [
@@ -45,66 +34,50 @@ class DeviceViewModel extends GetxController {
     fetchRealtimeData();
   }
 
-  
   void fetchRealtimeData() {
-    // Fetch areas
     database.ref().child('myhome/area').onValue.listen((event) {
       final areaData = event.snapshot.value as List<dynamic>?;
       if (areaData != null) {
-        areas.value = areaData.where((item) => item != null).map((json) => Area.fromJson(Map<String, dynamic>.from(json))).toList();
+        areas.value = areaData
+            .where((item) => item != null)
+            .map((json) => Area.fromJson(Map<String, dynamic>.from(json)))
+            .toList();
       }
     });
 
-    // Fetch devices
     database.ref().child('myhome/device').onValue.listen((event) {
-      final deviceData = event.snapshot.value as List<dynamic>?;
-      if (deviceData != null) {
-        devices.value = deviceData.where((item) => item != null).map((json) => Device.fromJson(Map<String, dynamic>.from(json))).toList();
+      final deviceData = event.snapshot.value;
+      if (deviceData is List<dynamic>) {
+        devices.value = deviceData
+            .where((item) => item != null)
+            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+            .toList();
+      } else if (deviceData is Map<dynamic, dynamic>) {
+        devices.value = deviceData.values
+            .where((item) => item != null)
+            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+            .toList();
       }
     });
   }
-
-  // void loadInitialDevices() {
-  //   devices.addAll([
-  //     Device(
-  //         idDevice: 1,
-  //         nameDevice: "Đèn",
-  //         area: "Phòng ngủ",
-  //         icon: Icons.light,
-  //         state: false),
-  //     Device(
-  //         idDevice: 2,
-  //         nameDevice: "Đèn",
-  //         area: "Phòng khách",
-  //         icon: Icons.light,
-  //         state: false),
-  //     Device(
-  //         idDevice: 3,
-  //         nameDevice: "Đèn",
-  //         area: "Phòng wc",
-  //         icon: Icons.light,
-  //         state: false)
-  //   ]);
-  // }
 
   void onTapRoom(int index) {
     selectedIndex.value = index;
   }
 
-void onHandelSwitch(bool pres, int id) {
-  var deviceIndex = devices.indexWhere((d) => d.idDevice == id);
-  if (deviceIndex != -1) {
-    devices[deviceIndex].state = pres;
+  void onHandelSwitch(bool pres, int id) {
+    var deviceIndex = devices.indexWhere((d) => d.id == id);
+    if (deviceIndex != -1) {
+      devices[deviceIndex].state = pres;
 
-    // Update Firebase Realtime Database
-    database.ref('myhome/device')
-        .child('$deviceIndex') // Use deviceIndex for Firebase path
-        .update({'state': pres});
+      database
+          .ref('myhome/device')
+          .child('${deviceIndex + 1}')
+          .update({'state': pres});
 
-    update(); // Update the UI
+      update();
+    }
   }
-}
-
 
   void onNext() {
     currentIndex++;
@@ -121,14 +94,13 @@ void onHandelSwitch(bool pres, int id) {
   }
 
   void onDone() {
-    // Assuming `selectedIndex.value` gives you the index of the selected area in the `areas` list
-    int selectedAreaId = areas[selectedIndex.value].idArea;
+    int selectedAreaId = areas[selectedIndex.value].id;
 
     devices.add(Device(
-        idDevice: devices.length + 1,
-        nameDevice: nameDevice.value,
-        idArea: selectedAreaId,
-        icon: Icons.light, // Use the selected area's ID here
+        id: devices.length + 1,
+        name: nameDevice.value,
+        areaId: selectedAreaId,
+        icon: Icons.light,
         state: false));
     resetForm();
   }
