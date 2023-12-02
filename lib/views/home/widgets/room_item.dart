@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
-import 'package:iot_app/models/room.dart';
+
+import '../../../models/area.dart';
 
 class RoomItem extends StatelessWidget {
-  const RoomItem({super.key, required this.room, required this.onTap});
-  final Room room;
+  const RoomItem({super.key, required this.onTap, required this.area});
+  final Area area;
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class RoomItem extends StatelessWidget {
                     topRight: Radius.circular(16),
                   ),
                   image: DecorationImage(
-                    image: AssetImage(room.imgUrl),
+                    image: AssetImage(area.imgUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,13 +41,13 @@ class RoomItem extends StatelessWidget {
               Positioned(
                 top: 20,
                 left: 24,
-                child: Text(room.name, style: AppStyle.onImagePrimaryText),
+                child: Text(area.name, style: AppStyle.onImagePrimaryText),
               ),
-              Positioned(
+              const Positioned(
                 top: 42,
                 left: 24,
                 child: Text(
-                  '${room.turningDevices} / ${room.totalDevices} đang bật',
+                  '${3} / ${3} đang bật',
                   style: AppStyle.onImageSecondaryText,
                 ),
               ),

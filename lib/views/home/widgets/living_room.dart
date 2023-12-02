@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_card.dart';
-import 'package:iot_app/models/room.dart';
+import 'package:iot_app/models/area.dart';
 import 'package:iot_app/view_models/detail_room_model/view.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class Living_Item extends StatelessWidget {
-  Living_Item({super.key, required this.room});
-  final Room room;
+  Living_Item({super.key, required this.area});
+  final Area area;
   bool isswit = false;
 
   @override
@@ -35,7 +35,7 @@ class Living_Item extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(room.imgUrl),
+                  image: AssetImage(area.imgUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -44,13 +44,13 @@ class Living_Item extends StatelessWidget {
             Positioned(
               top: 20,
               left: 24,
-              child: Text(room.name, style: AppStyle.onImagePrimaryText),
+              child: Text(area.name, style: AppStyle.onImagePrimaryText),
             ),
-            Positioned(
+            const Positioned(
               top: 42,
               left: 24,
               child: Text(
-                '${room.turningDevices} / ${room.totalDevices} đang bật',
+                '${3} / ${3} đang bật',
                 style: AppStyle.onImageSecondaryText,
               ),
             ),

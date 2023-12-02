@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,17 +36,24 @@ class DeviceViewModel extends GetxController {
     fetchRealtimeData();
   }
 
-  void fetchRealtimeData() {
-    database.ref().child('myhome/area').onValue.listen((event) {
-      final areaData = event.snapshot.value as List<dynamic>?;
-      if (areaData != null) {
-        areas.value = areaData
+  List<Device> getDevicesByAreaId(int id) {
+    List<Device> devicesById = [];
+    database.ref().child('myhome/device').onValue.listen((event) {
+      final deviceData = event.snapshot.value;
+      if (deviceData is List<dynamic>) {
+        devicesById = deviceData
             .where((item) => item != null)
-            .map((json) => Area.fromJson(Map<String, dynamic>.from(json)))
+            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+            .toList()
+            .where((element) => element.areaId == id)
             .toList();
       }
+      log(devicesById.toString());
     });
+    return devicesById;
+  }
 
+  void fetchRealtimeData() {
     database.ref().child('myhome/device').onValue.listen((event) {
       final deviceData = event.snapshot.value;
       if (deviceData is List<dynamic>) {
@@ -52,12 +61,13 @@ class DeviceViewModel extends GetxController {
             .where((item) => item != null)
             .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
             .toList();
-      } else if (deviceData is Map<dynamic, dynamic>) {
-        devices.value = deviceData.values
-            .where((item) => item != null)
-            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
-            .toList();
       }
+      // else if (deviceData is Map<dynamic, dynamic>) {
+      //   devices.value = deviceData.values
+      //       .where((item) => item != null)
+      //       .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+      //       .toList();
+      // }
     });
   }
 
