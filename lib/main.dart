@@ -8,12 +8,12 @@ import 'package:iot_app/views/auth/login/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform, name: 'Test');
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform, name: 'Test');
   //await FirebaseAppCheck.instance.activate();
   Get.put(AuthenticationRepository());
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
