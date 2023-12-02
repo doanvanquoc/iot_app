@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/view_models/area_view_model.dart';
@@ -41,7 +43,7 @@ class AreaItem extends StatelessWidget {
                           topRight: Radius.circular(16),
                         ),
                         image: DecorationImage(
-                          image: NetworkImage(snapshot.data!),
+                          image: CachedNetworkImageProvider(snapshot.data!),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -59,42 +61,45 @@ class AreaItem extends StatelessWidget {
                 left: 24,
                 child: Text(area.name, style: AppStyle.onImagePrimaryText),
               ),
-              Positioned(
-                top: 42,
-                left: 24,
-                child: Text(
-                  '${area.devices.where((element) => element.state).length} / ${area.devices.length} đang bật',
-                  style: AppStyle.onImageSecondaryText,
-                ),
-              ),
+              GetBuilder<AreaViewModel>(builder: (context) {
+                return Positioned(
+                  top: 42,
+                  left: 24,
+                  child: Text(
+                    '${area.devices.where((element) => element.state).length} / ${area.devices.length} đang bật',
+                    style: AppStyle.onImageSecondaryText,
+                  ),
+                );
+              }),
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-
-            children: List.generate(
-              area.devices.length,
-              (index) => Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: CircleAvatar(
-                  backgroundColor: area.devices[index].state
-                      ? AppColor.primaryColor
-                      : AppColor.secondaryColor,
-                  child: Image.asset(
-                    'assets/images/led.png',
-                    width: 30,
-                    height: 30,
-                    color: Colors.white,
+        GetBuilder<AreaViewModel>(builder: (controller) {
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                area.devices.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: CircleAvatar(
+                    backgroundColor: area.devices[index].state
+                        ? AppColor.primaryColor
+                        : AppColor.secondaryColor,
+                    child: Image.asset(
+                      'assets/images/led.png',
+                      width: 30,
+                      height: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
         const SizedBox(height: 24),
       ],
     );
