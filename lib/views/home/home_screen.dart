@@ -30,19 +30,17 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: GetBuilder<AreaViewModel>(
-        builder: (controller) => ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 9),
-          itemCount: areaViewModel.areas.length,
-          itemBuilder: (_, index) {
-            return AreaItem(
-              area: areaViewModel.areas[index],
-              onTap: () =>
-                  Get.to(AreaDetailScreen(area: areaViewModel.areas[index])),
-            );
-          },
-        ),
-      ),
+      body: Obx(() => ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 9),
+            itemCount: areaViewModel.areas.length,
+            itemBuilder: (_, index) {
+              return AreaItem(
+                area: areaViewModel.areas[index],
+                onTap: () =>
+                    Get.to(AreaDetailScreen(area: areaViewModel.areas[index])),
+              );
+            },
+          )),
       bottomNavigationBar: const MyBottomNavBar(),
     );
   }
