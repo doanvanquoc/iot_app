@@ -6,8 +6,8 @@ import 'package:iot_app/models/area.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 import 'package:iot_app/views/home/widgets/living_room.dart';
 
-class living_Screen extends StatelessWidget {
-  const living_Screen({super.key, required this.area});
+class AreaDetailScreen extends StatelessWidget {
+  const AreaDetailScreen({super.key, required this.area});
   final Area area;
 
   @override

@@ -7,13 +7,17 @@ class Area {
   final viewModel = Get.put(DeviceViewModel());
   final int id;
   final String name;
-  final String imgUrl = "assets/images/living_room.png";
+
+
+  final String imgUrl;
   List<Device> devices;
 
-  Area({required this.id, required this.name, required this.devices});
+  Area({required this.id, required this.name, required this.imgUrl, required this.devices});
+
 
   Area.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
+        imgUrl = json['imgUrl'],
         devices = [];
 }
