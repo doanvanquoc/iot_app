@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             return AreaItem(
               area: areaViewModel.areas[index],
               onTap: () =>
-                  Get.to(living_Screen(area: areaViewModel.areas[index])),
+                  Get.to(AreaDetailScreen(area: areaViewModel.areas[index])),
             );
           },
         ),

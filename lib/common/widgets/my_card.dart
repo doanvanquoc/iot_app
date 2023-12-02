@@ -14,11 +14,13 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
-    AreaViewModel areaViewModel = Get.find();
+
+    AreaViewModel areaViewModel = Get.put(AreaViewModel());
 
     String areaName = areaViewModel.areas
         .firstWhere((area) => area.id == device.areaId,
-            orElse: () => Area(id: -1, name: 'Unknown', devices: []))
+            orElse: () =>
+                Area(id: -1, name: 'Unknown', imgUrl: '', devices: []))
         .name;
 
     return Container(
@@ -47,9 +49,16 @@ class MyCard extends StatelessWidget {
             );
           }),
           const SizedBox(height: 16),
-          Text(device.name, style: AppStyle.onCardPrimaryText),
-          Text(areaName,
-              style: AppStyle.onCardSecondaryText), // Display area name
+          Expanded(
+              child: Text(
+            device.name,
+            style: AppStyle.onCardPrimaryText,
+            overflow: TextOverflow.ellipsis,
+          )),
+          Text(
+            areaName,
+            style: AppStyle.onCardSecondaryText,
+          ), // Display area name
         ],
       ),
     );
