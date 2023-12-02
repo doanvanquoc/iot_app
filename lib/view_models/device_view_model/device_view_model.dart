@@ -1,112 +1,115 @@
+import 'dart:developer';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/models/area.dart';
 import 'package:iot_app/models/device.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_add.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_option.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_sucessfull.dart';
 
 class DeviceViewModel extends GetxController {
-  var id = 0.obs;
   var currentIndex = 0.obs;
-  List<Widget> lstModel = [];
-  RxList<Device> devices = <Device>[].obs;
-  var checkStateDevice = false.obs;
-  var nameDevice = "".obs;
   var selectedIndex = 0.obs;
+  var nameDevice = "".obs;
+  RxList<Device> devicesById = <Device>[].obs;
+
+  List<Widget> lstModel = [];
   List<String> lstNameRoom = [];
 
-  @override
-  void onInit() {
+  void initializeBottomSheets() {
     lstModel = [
       BottomSheetAdd(onNext: onNext, onCanel: onBack),
       BottomSheetOption(onNext: onNext, onBack: onBack, onCanel: onCanel),
       BottomSheetSucessfull(onDone: onDone, onCanel: onCanel)
     ];
-
-    lstNameRoom = [
-      "Phòng khách",
-      "Phòng ăn",
-      "Phòng bếp",
-      "Phòng ngủ 1",
-      "Phòng ngủ 2",
-      "Phòng WC",
-      "Ngoài trời",
-    ];
-
-    devices.value = [
-      Device(
-        idDevice: 1,
-        nameDevice: "Đèn",
-        area: "Phòng ngủ",
-        icon: Icons.light,
-        state: false,
-      ),
-      Device(
-        idDevice: 2,
-        nameDevice: "Đèn",
-        area: "Phòng khách",
-        icon: Icons.light,
-        state: false,
-      ),
-      Device(
-        idDevice: 3,
-        nameDevice: "Đèn",
-        area: "Phòng wc",
-        icon: Icons.light,
-        state: false,
-      )
-    ];
-    super.onInit();
   }
 
-  // void submitForm(Key frm){
-  //   if()
-  // }
+  RxList<Device> devices = <Device>[].obs;
+  RxList<Area> areas = <Area>[].obs;
+  final FirebaseDatabase database = FirebaseDatabase.instance;
 
-  void onTapRoom(index) {
+  @override
+  void onInit() {
+    super.onInit();
+    fetchRealtimeData();
+  }
+
+  
+
+  void fetchRealtimeData() {
+    database.ref().child('myhome/device').onValue.listen((event) {
+      final deviceData = event.snapshot.value;
+      if (deviceData is List<dynamic>) {
+        devices.value = deviceData
+            .where((item) => item != null)
+            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+            .toList();
+      }
+      // else if (deviceData is Map<dynamic, dynamic>) {
+      //   devices.value = deviceData.values
+      //       .where((item) => item != null)
+      //       .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
+      //       .toList();
+      // }
+    });
+  }
+
+  void onTapRoom(int index) {
     selectedIndex.value = index;
   }
 
-  void onHandelSwitch(pres, id) {
-    devices[id].state = pres;
-    update();
+  void onHandelSwitch(bool pres, int id) {
+    var deviceIndex = devices.indexWhere((d) => d.id == id);
+    if (deviceIndex != -1) {
+      devices[deviceIndex].state = pres;
+
+      database
+          .ref('myhome/device')
+          .child('${deviceIndex + 1}')
+          .update({'state': pres});
+          
+      update();
+    }
   }
 
   void onNext() {
     currentIndex++;
-    Get.back();
     showModalBottomSheetAction();
   }
 
   void onBack() {
     currentIndex--;
-    Get.back();
     showModalBottomSheetAction();
   }
 
   void onCanel() {
-    currentIndex.value = 0;
-    selectedIndex.value = 0;
-    nameDevice.value = "";
-    Get.back();
+    resetForm();
   }
 
   void onDone() {
-    currentIndex.value = 0;
+    int selectedAreaId = areas[selectedIndex.value].id;
+
     devices.add(Device(
-        idDevice: devices.length + 1,
-        nameDevice: nameDevice.value,
-        area: lstNameRoom[selectedIndex.value - 1],
+        id: devices.length + 1,
+        name: nameDevice.value,
+        areaId: selectedAreaId,
         icon: Icons.light,
         state: false));
-    selectedIndex.value = 0;
-    nameDevice.value = "";
-    Get.back();
+    resetForm();
   }
 
   void setNameDevice(String name) {
     nameDevice.value = name;
+  }
+
+  void resetForm() {
+    currentIndex.value = 0;
+    selectedIndex.value = 0;
+    nameDevice.value = "";
+    Get.back();
   }
 
   void showModalBottomSheetAction() {

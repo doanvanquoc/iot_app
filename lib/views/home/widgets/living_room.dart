@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_card.dart';
-import 'package:iot_app/models/room.dart';
-import 'package:iot_app/view_models/detail_room_model/view.dart';
-import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
+import 'package:iot_app/models/area.dart';
+import 'package:iot_app/view_models/area_view_model.dart';
 
-class Living_Item extends StatelessWidget {
-  Living_Item({super.key, required this.room});
-  final Room room;
-  bool isswit = false;
+class AreaDetailItem extends StatelessWidget {
+  const AreaDetailItem({super.key, required this.area});
+  final Area area;
 
   @override
   Widget build(BuildContext context) {
-    viewModel view = Get.put(viewModel());
-    final deviceViewModel = Get.put(DeviceViewModel());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,7 +31,7 @@ class Living_Item extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(room.imgUrl),
+                  image: AssetImage(area.imgUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -44,16 +40,18 @@ class Living_Item extends StatelessWidget {
             Positioned(
               top: 20,
               left: 24,
-              child: Text(room.name, style: AppStyle.onImagePrimaryText),
+              child: Text(area.name, style: AppStyle.onImagePrimaryText),
             ),
-            Positioned(
-              top: 42,
-              left: 24,
-              child: Text(
-                '${room.turningDevices} / ${room.totalDevices} đang bật',
-                style: AppStyle.onImageSecondaryText,
-              ),
-            ),
+            GetBuilder<AreaViewModel>(builder: (controller) {
+              return Positioned(
+                top: 42,
+                left: 24,
+                child: Text(
+                  '${area.devices.where((element) => element.state).length} / ${area.devices.length} đang bật',
+                  style: AppStyle.onImageSecondaryText,
+                ),
+              );
+            }),
           ],
         ),
         const Padding(
@@ -64,8 +62,8 @@ class Living_Item extends StatelessWidget {
                 fontSize: 18,
               )),
         ),
-        Obx(
-          () => GridView.builder(
+        Expanded(
+          child: GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -73,10 +71,10 @@ class Living_Item extends StatelessWidget {
               mainAxisSpacing: 16.0,
               childAspectRatio: 1.2,
             ),
-            itemCount: deviceViewModel.devices.length,
+            itemCount: area.devices.length,
             itemBuilder: (_, int index) {
               return MyCard(
-                device: deviceViewModel.devices[index],
+                device: area.devices[index],
               );
             },
           ),

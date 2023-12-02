@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
-import 'package:iot_app/models/room.dart';
 
-class RoomItem extends StatelessWidget {
-  const RoomItem({super.key, required this.room, required this.onTap});
-  final Room room;
+import '../../../models/area.dart';
+
+class AreaItem extends StatelessWidget {
+  const AreaItem({super.key, required this.onTap, required this.area});
+  final Area area;
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class RoomItem extends StatelessWidget {
                     topRight: Radius.circular(16),
                   ),
                   image: DecorationImage(
-                    image: AssetImage(room.imgUrl),
+                    image: AssetImage(area.imgUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,13 +41,13 @@ class RoomItem extends StatelessWidget {
               Positioned(
                 top: 20,
                 left: 24,
-                child: Text(room.name, style: AppStyle.onImagePrimaryText),
+                child: Text(area.name, style: AppStyle.onImagePrimaryText),
               ),
               Positioned(
                 top: 42,
                 left: 24,
                 child: Text(
-                  '${room.turningDevices} / ${room.totalDevices} đang bật',
+                  '${area.devices.where((element) => element.state).length} / ${area.devices.length} đang bật',
                   style: AppStyle.onImageSecondaryText,
                 ),
               ),
@@ -56,38 +57,26 @@ class RoomItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                backgroundColor: AppColor.primaryColor,
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
-                  color: Colors.white,
+
+            children: List.generate(
+              area.devices.length,
+              (index) => Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: CircleAvatar(
+                  backgroundColor: area.devices[index].state
+                      ? AppColor.primaryColor
+                      : AppColor.secondaryColor,
+                  child: Image.asset(
+                    'assets/images/led.png',
+                    width: 30,
+                    height: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              const SizedBox(width: 8),
-              CircleAvatar(
-                backgroundColor: AppColor.primaryColor,
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 8),
-              CircleAvatar(
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
-                  color: Colors.white,
-                ),
-              )
-            ],
+            ),
           ),
         ),
         const SizedBox(height: 24),
