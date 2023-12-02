@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/widgets/my_button.dart';
-import 'package:iot_app/main.dart';
 import 'package:iot_app/my_app.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
@@ -54,40 +53,6 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 24),
                       Obx(() {
                         if (viewModel.selectedSegment.value == 1) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: PhoneNumberController(),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                flex: 3,
-                                child: SizedBox(
-                                  height: 56,
-                                  child: TextFormField(
-                                    controller: phoneNo,
-                                    onChanged: (value) =>
-                                        viewModel.phoneNumber.value = value,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            decimal: false),
-                                    style: const TextStyle(
-                                      color: Color(0xff484D51),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      contentPadding: const EdgeInsets.all(16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
                           return SizedBox(
                             height: 128,
                             child: Column(
@@ -144,38 +109,51 @@ class LoginScreen extends StatelessWidget {
                               ],
                             ),
                           );
-                        }
-                      }),
-                      Obx(() {
-                        if (viewModel.selectedSegment.value == 1) {
-                          return const SizedBox(height: 96);
                         } else {
-                          return const SizedBox(height: 24);
-                        }
-                      }),
-                      Obx(() {
-                        if (viewModel.selectedSegment.value == 1) {
-                          return MyButton(
-                            text: 'Gửi mã OTP',
-                            onTap: () {
-                              if (viewModel.checkInPutCompletion) {
-                                AuthenticationViewModel.instance
-                                    .phoneAuthentification(
-                                        '+84${phoneNo.text.trim()}');
-                              } else {
-                                AuthenticationRepository
-                                    .instance.isLoading.value = false;
-                                Get.snackbar(
-                                  'Thông báo',
-                                  'Vui lòng điền đầy đủ thông tin!',
-                                  colorText: AppColor.primaryColor,
-                                  backgroundColor: const Color(0xffDDE6ED),
-                                  snackPosition: SnackPosition.TOP,
-                                );
-                              }
-                            },
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: PhoneNumberController(),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                flex: 3,
+                                child: SizedBox(
+                                  height: 56,
+                                  child: TextFormField(
+                                    controller: phoneNo,
+                                    onChanged: (value) =>
+                                        viewModel.phoneNumber.value = value,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            decimal: false),
+                                    style: const TextStyle(
+                                      color: Color(0xff484D51),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
+                        }
+                      }),
+                      Obx(() {
+                        if (viewModel.selectedSegment.value == 1) {
+                          return const SizedBox(height: 24);
                         } else {
+                          return const SizedBox(height: 96);
+                        }
+                      }),
+                      Obx(() {
+                        if (viewModel.selectedSegment.value == 1) {
                           return MyButton(
                             text: 'Đăng nhập',
                             onTap: () {
@@ -194,6 +172,27 @@ class LoginScreen extends StatelessWidget {
                               }
                             },
                           );
+                        } else {
+                          return MyButton(
+                            text: 'Gửi mã OTP',
+                            onTap: () {
+                              if (viewModel.checkInPutCompletion) {
+                                AuthenticationViewModel.instance
+                                    .phoneAuthentification(phoneNo.text.trim());
+                                print(phoneNo.text.trim());
+                              } else {
+                                AuthenticationRepository
+                                    .instance.isLoading.value = false;
+                                Get.snackbar(
+                                  'Thông báo',
+                                  'Vui lòng điền đầy đủ thông tin!',
+                                  colorText: AppColor.primaryColor,
+                                  backgroundColor: const Color(0xffDDE6ED),
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                              }
+                            },
+                          );
                         }
                       })
                     ],
@@ -205,7 +204,11 @@ class LoginScreen extends StatelessWidget {
         ),
         Obx(() {
           if (viewModel.selectedSegment.value == 1) {
-            if (AuthenticationRepository.instance.isLoading.value) {
+            if (viewModel.isSuccess.value) {
+              Future.delayed(const Duration(seconds: 2), () {
+                Get.offAll(() => const NavScreen());
+                viewModel.isSuccess.value = false;
+              });
               return Container(
                 color: Colors.black.withOpacity(0.3),
                 child: Center(
@@ -216,10 +219,7 @@ class LoginScreen extends StatelessWidget {
               return const SizedBox.shrink();
             }
           } else {
-            if (viewModel.isSuccess.value) {
-              Future.delayed(const Duration(seconds: 2), () {
-                Get.offAll(() => const NavScreen());
-              });
+            if (AuthenticationRepository.instance.isLoading.value) {
               return Container(
                 color: Colors.black.withOpacity(0.3),
                 child: Center(
