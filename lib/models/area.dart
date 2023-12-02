@@ -8,9 +8,9 @@ class Area {
   final int id;
   final String name;
   final String imgUrl = "assets/images/living_room.png";
-  List<Device>? devices;
+  List<Device> devices;
 
-  Area({required this.id, required this.name});
+  Area({required this.id, required this.name, required this.devices});
 
   Area.fromJson(Map<String, dynamic> json)
       : id = json['id'],

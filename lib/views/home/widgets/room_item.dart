@@ -4,8 +4,8 @@ import 'package:iot_app/common/apps/app_style.dart';
 
 import '../../../models/area.dart';
 
-class RoomItem extends StatelessWidget {
-  const RoomItem({super.key, required this.onTap, required this.area});
+class AreaItem extends StatelessWidget {
+  const AreaItem({super.key, required this.onTap, required this.area});
   final Area area;
   final Function() onTap;
   @override
@@ -43,11 +43,11 @@ class RoomItem extends StatelessWidget {
                 left: 24,
                 child: Text(area.name, style: AppStyle.onImagePrimaryText),
               ),
-              const Positioned(
+              Positioned(
                 top: 42,
                 left: 24,
                 child: Text(
-                  '${3} / ${3} đang bật',
+                  '${area.devices.where((element) => element.state).length} / ${area.devices.length} đang bật',
                   style: AppStyle.onImageSecondaryText,
                 ),
               ),
@@ -57,35 +57,25 @@ class RoomItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                backgroundColor: AppColor.primaryColor,
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
+            children: List.generate(
+              area.devices.length,
+              (index) => Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: CircleAvatar(
+                  backgroundColor: area.devices[index].state
+                      ? AppColor.primaryColor
+                      : AppColor.secondaryColor,
+                  child: Image.asset(
+                    'assets/images/led.png',
+                    width: 30,
+                    height: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              const SizedBox(width: 8),
-              CircleAvatar(
-                backgroundColor: AppColor.primaryColor,
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
-                ),
-              ),
-              const SizedBox(width: 8),
-              CircleAvatar(
-                child: Image.asset(
-                  'assets/images/led.png',
-                  width: 30,
-                  height: 30,
-                ),
-              )
-            ],
+            ),
           ),
         ),
         const SizedBox(height: 24),

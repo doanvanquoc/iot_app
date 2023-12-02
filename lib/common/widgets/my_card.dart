@@ -4,6 +4,7 @@ import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/models/area.dart';
 import 'package:iot_app/models/device.dart';
+import 'package:iot_app/view_models/area_view_model.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class MyCard extends StatelessWidget {
@@ -13,10 +14,11 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeviceViewModel deviceViewModel = Get.find();
+    AreaViewModel areaViewModel = Get.find();
 
-    String areaName = deviceViewModel.areas
+    String areaName = areaViewModel.areas
         .firstWhere((area) => area.id == device.areaId,
-            orElse: () => Area(id: -1, name: 'Unknown'))
+            orElse: () => Area(id: -1, name: 'Unknown', devices: []))
         .name;
 
     return Container(

@@ -14,6 +14,7 @@ class DeviceViewModel extends GetxController {
   var currentIndex = 0.obs;
   var selectedIndex = 0.obs;
   var nameDevice = "".obs;
+  RxList<Device> devicesById = <Device>[].obs;
 
   List<Widget> lstModel = [];
   List<String> lstNameRoom = [];
@@ -36,22 +37,7 @@ class DeviceViewModel extends GetxController {
     fetchRealtimeData();
   }
 
-  List<Device> getDevicesByAreaId(int id) {
-    List<Device> devicesById = [];
-    database.ref().child('myhome/device').onValue.listen((event) {
-      final deviceData = event.snapshot.value;
-      if (deviceData is List<dynamic>) {
-        devicesById = deviceData
-            .where((item) => item != null)
-            .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
-            .toList()
-            .where((element) => element.areaId == id)
-            .toList();
-      }
-      log(devicesById.toString());
-    });
-    return devicesById;
-  }
+  
 
   void fetchRealtimeData() {
     database.ref().child('myhome/device').onValue.listen((event) {
@@ -84,7 +70,7 @@ class DeviceViewModel extends GetxController {
           .ref('myhome/device')
           .child('${deviceIndex + 1}')
           .update({'state': pres});
-
+          
       update();
     }
   }

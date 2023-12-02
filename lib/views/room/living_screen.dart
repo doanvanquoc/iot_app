@@ -30,7 +30,7 @@ class living_Screen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 9),
-        child: Living_Item(area: area),
+        child: AreaDetailItem(area: area),
       ),
     );
   }
