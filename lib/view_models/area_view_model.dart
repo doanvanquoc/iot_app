@@ -5,16 +5,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/models/area.dart';
 import 'package:iot_app/models/device.dart';
+import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 
 class AreaViewModel extends GetxController {
   final deviceViewModel = Get.put(DeviceViewModel());
   final FirebaseStorage storage = FirebaseStorage.instance;
   RxList<Area> areas = <Area>[].obs;
-  void getAreas() {
+  void getAreas() async {
+    String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
     FirebaseDatabase.instance
         .ref()
-        .child('myhome/area')
+        .child('$homeId/area')
         .onValue
         .listen((event) {
       final areaData = event.snapshot.value as List<dynamic>?;
@@ -31,10 +33,11 @@ class AreaViewModel extends GetxController {
     });
   }
 
-  void getAreaDevices(Area area) {
+  void getAreaDevices(Area area) async {
+    String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
     FirebaseDatabase.instance
         .ref()
-        .child('myhome/device')
+        .child('$homeId/device')
         .onValue
         .listen((event) {
       final deviceData = event.snapshot.value;

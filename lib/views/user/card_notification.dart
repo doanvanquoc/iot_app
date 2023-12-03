@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/models/notification.dart';
 
 class CardNotification extends StatelessWidget {
   const CardNotification({
     Key? key, // Use Key? instead of super.key
-    required this.deviceName,
-    required this.area,
+
     required this.icon,
-    required this.time,
-    required this.date,
+    required this.notification,
   }) : super(key: key);
 
-  final String deviceName;
-  final String area;
+  final Noti notification;
   final IconData icon;
-  final String time;
-  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +23,21 @@ class CardNotification extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: AppColor.backgroundColor,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 70),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Ngày: $date', style: AppStyle.onCardSecondaryText),
-              Text('Thời gian: $time', style: AppStyle.onCardSecondaryText),
-              Text('$deviceName $area', style: AppStyle.onCardPrimaryText),
-            ],
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Ngày: ${notification.date}',
+                style: AppStyle.onCardSecondaryText),
+            Text('Thời gian: ${notification.time}',
+                style: AppStyle.onCardSecondaryText),
+            Text(notification.noti, style: AppStyle.onCardPrimaryText),
+            Text('Người thực hiện: ${notification.user}',
+                style: AppStyle.onCardPrimaryText),
+          ],
+        ),
       ),
     );
   }

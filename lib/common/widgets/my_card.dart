@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
@@ -16,6 +19,7 @@ class MyCard extends StatelessWidget {
     DeviceViewModel deviceViewModel = Get.find();
 
     AreaViewModel areaViewModel = Get.put(AreaViewModel());
+    int? lightValue = device.lightValue;
 
     String areaName = areaViewModel.areas
         .firstWhere((area) => area.id == device.areaId,
@@ -35,13 +39,21 @@ class MyCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GetBuilder<DeviceViewModel>(builder: (_) {
+            log(lightValue.toString());
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(device.icon,
-                    size: 40), // Ensure the icon is handled correctly
+                Icon(
+                  device.icon,
+                  size: 40,
+                  color: deviceViewModel.devices[device.id - 1].state
+                      ? AppColor.primaryColor
+                      : Colors.black,
+                ), // Ensure the icon is handled correctly
                 CupertinoSwitch(
-                    value: deviceViewModel.devices[device.id - 1].state,
+                    value: lightValue == null
+                        ? deviceViewModel.devices[device.id - 1].state
+                        : lightValue <= 20,
                     onChanged: (value) =>
                         deviceViewModel.onHandelSwitch(value, device.id),
                     activeColor: AppColor.primaryColor),

@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/models/area.dart';
 import 'package:iot_app/models/device.dart';
+import 'package:iot_app/view_models/authentication_view_model.dart';
+import 'package:iot_app/view_models/edit_user_view_model.dart';
+import 'package:iot_app/view_models/notification_view_model.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_add.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_option.dart';
 import 'package:iot_app/views/device/widgets/bottom_sheet_sucessfull.dart';
@@ -15,6 +18,8 @@ class DeviceViewModel extends GetxController {
   var selectedIndex = 0.obs;
   var nameDevice = "".obs;
   RxList<Device> devicesById = <Device>[].obs;
+  final notiViewModel = Get.put(NotificationViewModel());
+  RxInt lightValue = 0.obs;
 
   List<Widget> lstModel = [];
   List<String> lstNameRoom = [];
@@ -37,10 +42,9 @@ class DeviceViewModel extends GetxController {
     fetchRealtimeData();
   }
 
-  
-
-  void fetchRealtimeData() {
-    database.ref().child('myhome/device').onValue.listen((event) {
+  void fetchRealtimeData() async {
+    String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
+    database.ref().child('$homeId/device').onValue.listen((event) {
       final deviceData = event.snapshot.value;
       if (deviceData is List<dynamic>) {
         devices.value = deviceData
@@ -48,12 +52,31 @@ class DeviceViewModel extends GetxController {
             .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
             .toList();
       }
+      devices.firstWhereOrNull((element) => element.id == 3)?.state =
+          devices.firstWhereOrNull((element) => element.id == 4)?.state ??
+              false;
       // else if (deviceData is Map<dynamic, dynamic>) {
       //   devices.value = deviceData.values
       //       .where((item) => item != null)
       //       .map((json) => Device.fromJson(Map<String, dynamic>.from(json)))
       //       .toList();
       // }
+      lightValue.value = devices
+              .firstWhereOrNull((element) => element.lightValue != null)
+              ?.lightValue! ??
+          0;
+      devices.firstWhereOrNull((element) => element.lightValue != null)?.state =
+          lightValue.value <= 20;
+
+      database
+          .ref('$homeId/device')
+          .child(
+              '${devices.indexOf(devices.firstWhereOrNull((element) => element.lightValue != null)) + 1}')
+          .update({
+        'state': devices
+            .firstWhereOrNull((element) => element.lightValue != null)
+            ?.state
+      });
     });
   }
 
@@ -61,17 +84,44 @@ class DeviceViewModel extends GetxController {
     selectedIndex.value = index;
   }
 
-  void onHandelSwitch(bool pres, int id) {
-    var deviceIndex = devices.indexWhere((d) => d.id == id);
-    if (deviceIndex != -1) {
-      devices[deviceIndex].state = pres;
+  Future<void> onHandelSwitch(bool pres, int id) async {
+    String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
+    if (devices.singleWhere((element) => element.id == id).lightValue == null) {
+      String user = Get.find<EditUserViewModel>().fullNameController.text;
+      var deviceIndex = devices.indexWhere((d) => d.id == id);
+      if (deviceIndex != -1) {
+        devices[deviceIndex].state = pres;
+        if (deviceIndex == 2 || deviceIndex == 3) {
+          devices[3].state = pres;
+          devices[4].state = pres;
+          database.ref('$homeId/device').child('${3}').update({'state': pres});
+          database.ref('$homeId/device').child('${4}').update({'state': pres});
+          String noti1 = devices[2].state
+              ? "Bật ${devices[2].name}"
+              : "Tắt ${devices[2].name}";
 
-      database
-          .ref('myhome/device')
-          .child('${deviceIndex + 1}')
-          .update({'state': pres});
-          
-      update();
+          String noti2 = devices[3].state
+              ? "Bật ${devices[3].name}"
+              : "Tắt ${devices[3].name}";
+          log(noti1);
+          log(noti2);
+          await notiViewModel.addNotification(noti1, user);
+          await notiViewModel.addNotification(noti2, user);
+        } else {
+          database
+              .ref('$homeId/device')
+              .child('${deviceIndex + 1}')
+              .update({'state': pres});
+          String noti = devices[deviceIndex].state
+              ? "Bật ${devices[deviceIndex].name}"
+              : "Tắt ${devices[deviceIndex].name}";
+          // notiViewModel.addNoti(DateTime.now(), noti);
+
+          notiViewModel.addNotification(noti, user);
+        }
+
+        update();
+      }
     }
   }
 
@@ -125,5 +175,11 @@ class DeviceViewModel extends GetxController {
             child: lstModel[currentIndex.value],
           );
         });
+  }
+
+  onChangeLightValue(int value) {
+    lightValue.value = value;
+    devices.singleWhere((element) => element.lightValue != null).state =
+        lightValue <= 20;
   }
 }

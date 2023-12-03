@@ -22,6 +22,7 @@ class UserScreen extends StatelessWidget {
     print('userScreen: $user');
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         surfaceTintColor: Colors.transparent,
         title: const Text(
           "Tài khoản",
@@ -100,7 +101,7 @@ class UserScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NotificationScreen(),
+                      builder: (context) => NotificationScreen(),
                     ),
                   );
                 },
