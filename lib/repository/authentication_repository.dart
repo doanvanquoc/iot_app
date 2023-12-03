@@ -1,84 +1,152 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
+import 'package:iot_app/models/user.dart';
 import 'package:iot_app/my_app.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
+import 'package:iot_app/view_models/navigation_view_model.dart';
 import 'package:iot_app/views/auth/login/login_screen.dart';
-import 'package:iot_app/views/home/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
+  AuthenticationRepository() {
+    firebaseUser = Rx<User?>(_auth.currentUser);
+  }
   static LoginViewModel viewModel = Get.put(LoginViewModel());
 
   final _auth = FirebaseAuth.instance;
-  late final Rx<User?> firebaseUser;
+  final user = Rx<UserModel?>(null);
+  late Rx<User?> firebaseUser;
   var verificationID = ''.obs;
-  int? _forceResendingToken;
   var isLoading = false.obs;
+  int? _forceResendingToken;
 
   @override
   void onReady() {
-    firebaseUser = Rx<User?>(_auth.currentUser);
+    super.onReady();
     firebaseUser.bindStream(_auth.userChanges());
-    //ever(firebaseUser, _setInitialScreen);
-    setInitialScreen(firebaseUser.value);
+    setInitialScreen();
   }
 
-  setInitialScreen(User? user) {
-    user == null
-        ? Get.offAll(() => LoginScreen())
-        : Get.offAll(() => const NavScreen());
-    //: Get.offAll(() => AuthenticationScreen(idx: 2));
+  Future<void> setInitialScreen() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userData = prefs.getString('userData');
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (userData != null) {
+      UserModel user = UserModel.fromJson(jsonDecode(userData));
+      GlobalModel.instance.setAuthenticatedUser(user);
+      Get.offAll(() => const NavScreen());
+    } else {
+      Get.offAll(() => LoginScreen());
+    }
+  }
+
+  String normalizePhoneNumber(String phoneNo, String selectedCountryCode) {
+    String countryCode = selectedCountryCode.replaceAll('+', '');
+    String normalized = phoneNo.replaceAll(RegExp(r'\D'), '');
+
+    if (normalized.startsWith('0')) {
+      normalized = normalized.substring(1);
+    }
+    if (!normalized.startsWith(countryCode)) {
+      normalized = countryCode + normalized;
+    }
+
+    return normalized;
+  }
+
+  String normalizePhoneNumberForOTP(
+      String phoneNo, String selectedCountryCode) {
+    String normalized = normalizePhoneNumber(phoneNo, selectedCountryCode);
+    return '+$normalized';
+  }
+
+  Future<UserModel?> getUserByPhoneNo(String phoneNo) async {
+    try {
+      var usersRef = FirebaseFirestore.instance.collection('users');
+      String normalizedPhoneNo =
+          normalizePhoneNumber(phoneNo, viewModel.selectedCountryCode.value);
+      var querySnapshot =
+          await usersRef.where('phoneNo', isEqualTo: normalizedPhoneNo).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        var userData = querySnapshot.docs.first.data();
+        return UserModel.fromMap(userData);
+      }
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   Future<void> phoneNumberAuthentication(String phoneNo) async {
-    isLoading.value = true;
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNo,
-      verificationCompleted: (credential) {
-        //await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        if (e.code == 'invalid-phone-number') {
+    String normalizedPhoneNo = normalizePhoneNumberForOTP(
+        phoneNo, viewModel.selectedCountryCode.value);
+    UserModel? user = await getUserByPhoneNo(normalizedPhoneNo);
+    print('phoneNumberAuthentication: $user');
+    print(normalizedPhoneNo);
+
+    if (user != null) {
+      isLoading.value = true;
+      await _auth.verifyPhoneNumber(
+        phoneNumber: normalizedPhoneNo,
+        verificationCompleted: (credential) {},
+        verificationFailed: (FirebaseAuthException e) {
           isLoading.value = false;
-          Get.snackbar(
-            'Thông báo',
-            'Số điện thoại đăng nhập không hơp lệ!',
-            colorText: AppColor.primaryColor,
-            backgroundColor: const Color(0xffDDE6ED),
-            snackPosition: SnackPosition.TOP,
-          );
-        } else {
-          Get.snackbar(
-            'Thông báo',
-            'Vui lòng điền đầy đủ thông tin!',
-            colorText: AppColor.primaryColor,
-            backgroundColor: const Color(0xffDDE6ED),
-            snackPosition: SnackPosition.TOP,
-          );
-        }
-        //6throw Exception(e.message);
-      },
-      codeSent: ((verificationId, forceResendingToken) {
-        verificationID.value = verificationId;
-        _forceResendingToken = forceResendingToken;
-        viewModel.sendOTP();
-      }),
-      codeAutoRetrievalTimeout: ((verificationId) {
-        verificationID.value = verificationId;
-      }),
-      forceResendingToken: _forceResendingToken,
-    );
+          if (e.code == 'invalid-phone-number') {
+            Get.snackbar(
+              'Thông báo',
+              'Số điện thoại đăng nhập không hơp lệ!',
+              colorText: AppColor.primaryColor,
+              backgroundColor: const Color(0xffDDE6ED),
+              snackPosition: SnackPosition.TOP,
+            );
+          } else if (e.code == 'too-many-requests') {
+            Get.snackbar(
+              'Thông báo',
+              'Đã xảy ra lỗi. Vui lòng thử lại sau!',
+              colorText: AppColor.primaryColor,
+              backgroundColor: const Color(0xffDDE6ED),
+              snackPosition: SnackPosition.TOP,
+            );
+          } else {
+            Get.snackbar(
+              'Thông báo',
+              'Vui lòng điền đầy đủ thông tin!',
+              colorText: AppColor.primaryColor,
+              backgroundColor: const Color(0xffDDE6ED),
+              snackPosition: SnackPosition.TOP,
+            );
+          }
+        },
+        codeSent: ((verificationId, forceResendingToken) {
+          verificationID.value = verificationId;
+          _forceResendingToken = forceResendingToken;
+          viewModel.sendOTP();
+        }),
+        codeAutoRetrievalTimeout: ((verificationId) {
+          verificationID.value = verificationId;
+        }),
+        forceResendingToken: _forceResendingToken,
+      );
+    } else {
+      Get.snackbar(
+        'Thông báo',
+        'Tài khoản không hợp lệ!',
+        colorText: AppColor.primaryColor,
+        backgroundColor: const Color(0xffDDE6ED),
+        snackPosition: SnackPosition.TOP,
+      );
+    }
   }
-
-  // Future<bool> verifyOTP(String otp) async {
-  //   var credentials = await _auth.signInWithCredential(
-  //       PhoneAuthProvider.credential(
-  //           verificationId: verificationID.value, smsCode: otp));
-
-  //   return credentials.user != null;
-  // }
 
   Future<bool> verifyOTP(String otp) async {
     try {
@@ -94,104 +162,34 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  // void sendSignInLinkToEmail(String email) async {
-  //   final ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-  //     url:
-  //         'https://smarthome-arduino-53a4f.firebaseapp.com/__/auth/action?mode=action&oobCode=code',
-  //     handleCodeInApp: true,
-  //     iOSBundleId: 'com.example.ios',
-  //     androidPackageName: 'com.example.android',
-  //     androidInstallApp: true,
-  //     androidMinimumVersion: '12',
-  //   );
-
-  //   await _auth.sendSignInLinkToEmail(
-  //     email: email,
-  //     actionCodeSettings: actionCodeSettings,
-  //   );
-  // }
-
-  Future<UserCredential> signInWithEmailAndPassword(
+  Future<UserModel?> getUserByEmailAndPassword(
       String email, String password) async {
+    var usersRef = FirebaseFirestore.instance.collection('users');
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      var querySnapshot = await usersRef.where('email', isEqualTo: email).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        var userData = querySnapshot.docs.first.data();
+        if (userData['password'] == password) {
+          return UserModel.fromMap(userData);
+        }
+      }
+      Get.snackbar(
+        'Thông báo',
+        'Tài khoản không hợp lệ!',
+        colorText: AppColor.primaryColor,
+        backgroundColor: const Color(0xffDDE6ED),
+        snackPosition: SnackPosition.TOP,
       );
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      print('...');
-      throw Exception(e.code);
+      return null;
+    } catch (e) {
+      Get.snackbar(
+        'Thông báo',
+        'Đã xảy ra lỗi. Vui lòng thử lại sau!',
+        colorText: AppColor.primaryColor,
+        backgroundColor: const Color(0xffDDE6ED),
+        snackPosition: SnackPosition.TOP,
+      );
+      return null;
     }
   }
-
-  // Future<void> sendEmailVerification() async {
-  //   // if (!await emailVerified()) {
-  //   //   print('athued');
-  //   //   try {
-  //   //     await _auth.currentUser!.sendEmailVerification();
-  //   //   } catch (e) {
-  //   //     print(e);
-  //   //   }
-  //   // } else {
-  //   //   Get.to(() => const HomePage());
-  //   // }
-  //   try {
-  //     print('send');
-  //     await _auth.currentUser!.sendEmailVerification();
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
-//   void emailAuthentication(String email) async {
-//   try {
-//     sendSignInLinkToEmail(email);
-//   } catch (e) {
-//     Get.snackbar(
-//       'Thông báo',
-//       'Không thể gửi email xác thực: ${e.toString()}',
-//       colorText: AppColor.primaryColor,
-//       backgroundColor: const Color(0xffDDE6ED),
-//       snackPosition: SnackPosition.TOP,
-//     );
-//   }
-// }
-
-  // Future<bool> checkEmailExists(String email) async {
-  //   try {
-  //     var methods =
-  //         await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-  //     return methods.isNotEmpty;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
-
-  // Future<bool> emailVerified() async {
-  //   User? user = _auth.currentUser;
-  //   if (user == null) {
-  //     Get.snackbar(
-  //       'Thông báo',
-  //       'Email không hợp lệ!',
-  //       colorText: AppColor.primaryColor,
-  //       backgroundColor: const Color(0xffDDE6ED),
-  //       snackPosition: SnackPosition.TOP,
-  //     );
-  //     return false;
-  //   }
-  //   print('have acc');
-  //   viewModel.sendLink();
-  //   await user.reload();
-  //   user = _auth.currentUser;
-  //   return user?.emailVerified ?? false;
-  // }
-
-  // Future<void> sendMail() async {
-  //   try {
-  //     await _auth.currentUser?.sendEmailVerification();
-  //   } on FirebaseException catch (e) {
-  //     throw e.toString();
-  //   }
-  // }
 }

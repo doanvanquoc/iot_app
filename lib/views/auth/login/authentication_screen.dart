@@ -24,6 +24,7 @@ class AuthenticationScreen extends StatelessWidget {
       Scaffold(
         backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: const Text(
@@ -98,7 +99,7 @@ class AuthenticationScreen extends StatelessWidget {
         ),
       ),
       Obx(() {
-        if (viewModel.isSucess.value) {
+        if (viewModel.isSuccess.value) {
           Future.delayed(const Duration(seconds: 2), () {
             Get.offAll(() => const NavScreen());
           });

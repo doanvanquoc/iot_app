@@ -1,17 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
-import 'package:iot_app/models/room.dart';
+import 'package:iot_app/models/area.dart';
+import 'package:iot_app/view_models/area_view_model.dart';
 import 'package:iot_app/views/home/widgets/add_area.dart';
 import 'package:iot_app/views/home/widgets/add_bg.dart';
 import 'package:iot_app/views/home/widgets/complete_add.dart';
 
 class AddRoomViewModel extends GetxController {
+  final areaViewModel = Get.put(AreaViewModel());
   RxInt currentIndex = 0.obs;
   List<Widget> lstShowModal = [];
-  RxList<Room> rooms = <Room>[].obs;
+  RxList<Area> areas = <Area>[].obs;
   RxString roomName = ''.obs;
   RxString imgUrl = ''.obs;
 
@@ -34,26 +34,7 @@ class AddRoomViewModel extends GetxController {
       CompleteAdd(onDone: onDone, onCancel: onCancel)
     ];
 
-    rooms.value = [
-      Room(
-        name: 'Phòng khách',
-        totalDevices: 3,
-        turningDevices: 3,
-        imgUrl: 'assets/images/living_room.png',
-      ),
-      Room(
-        name: 'Phòng ngủ 1',
-        totalDevices: 3,
-        turningDevices: 2,
-        imgUrl: 'assets/images/bed_room1.png',
-      ),
-      Room(
-        name: 'Phòng ngủ 2',
-        totalDevices: 3,
-        turningDevices: 2,
-        imgUrl: 'assets/images/bed_room2.png',
-      ),
-    ];
+    areas = areaViewModel.areas;
     selectedImgUrl.value = imgs[0];
     super.onInit();
   }
@@ -71,15 +52,15 @@ class AddRoomViewModel extends GetxController {
   }
 
   void onDone() {
-    currentIndex.value = 0;
-    log(imgUrl.toString());
-    rooms.add(Room(
-        name: roomName.value,
-        totalDevices: 0,
-        turningDevices: 0,
-        imgUrl: imgUrl.value));
-    Get.back();
-    reset();
+    // currentIndex.value = 0;
+    // log(imgUrl.toString());
+    // rooms.add(Room(
+    //     name: roomName.value,
+    //     totalDevices: 0,
+    //     turningDevices: 0,
+    //     imgUrl: imgUrl.value));
+    // Get.back();
+    // reset();
   }
 
   void onCancel() {

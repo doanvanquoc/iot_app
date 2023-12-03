@@ -10,6 +10,7 @@ class AppStyle {
   static const onImagePrimaryText = TextStyle(
     color: Color(0xffF7FBFC),
     fontSize: 18,
+    fontWeight: FontWeight.bold,
   ); // Style text cho text nằm trên ảnh, dòng 1
   static const onImageSecondaryText = TextStyle(
     color: Color(0xffF7FBFC),
