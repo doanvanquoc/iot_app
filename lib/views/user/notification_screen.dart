@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_style.dart';
+import 'package:iot_app/view_models/notification_view_model.dart';
 import 'package:iot_app/views/user/card_notification.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -16,100 +20,22 @@ class NotificationScreen extends StatelessWidget {
           style: AppStyle.appBarText,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: ListView(
-          shrinkWrap: true,
-          children: const [
-            CardNotification(
-              deviceName: 'Mở cửa',
-              area: 'chính',
-              icon: Icons.door_front_door_outlined,
-              time: '12:59:59',
-              date: '10/10/2023',
+      body: GetBuilder<NotificationViewModel>(
+        builder: (controller) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView.separated(
+              itemCount: controller.notifications.length,
+              itemBuilder: (context, index) {
+                log("test: ${controller.notifications.length}");
+                return CardNotification(
+                    icon: Icons.light,
+                    notification: controller.notifications[index]);
+              },
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Bật đèn',
-              area: 'Phòng khách',
-              icon: Icons.light_mode_sharp,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Tắt đèn',
-              area: 'Phòng khách',
-              icon: Icons.nightlight,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Bật đèn',
-              area: 'Phòng bếp',
-              icon: Icons.light_mode_sharp,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Tắt đèn',
-              area: 'phòng bếp',
-              icon: Icons.nightlight,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Mở cửa',
-              area: 'chính',
-              icon: Icons.door_front_door_outlined,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Mở cửa',
-              area: 'chính',
-              icon: Icons.door_front_door_outlined,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Mở cửa',
-              area: 'chính',
-              icon: Icons.door_front_door_outlined,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CardNotification(
-              deviceName: 'Mở cửa',
-              area: 'chính',
-              icon: Icons.door_front_door_outlined,
-              time: '12:59:59',
-              date: '10/10/2023',
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

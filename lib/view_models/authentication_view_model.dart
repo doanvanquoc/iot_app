@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/models/user.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
+import 'package:iot_app/view_models/edit_user_view_model.dart';
 import 'package:iot_app/view_models/login_view_model.dart';
 import 'package:iot_app/view_models/navigation_view_model.dart';
 import 'package:iot_app/views/auth/login/login_screen.dart';
@@ -162,6 +163,17 @@ class AuthenticationViewModel extends GetxController {
       );
     }
   }
+
+  Future<String> getHomeId() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email',
+            isEqualTo: Get.find<EditUserViewModel>().emailController.text)
+        .get();
+
+        String homeId = (querySnapshot.docs.single.data() as Map)['homeId'];
+        return homeId;
+    }
 
   Future<void> showMyDialog() async {
     return showDialog<void>(

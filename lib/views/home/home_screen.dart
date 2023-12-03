@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/common/widgets/my_bottom_nav_bar.dart';
 import 'package:iot_app/view_models/area_view_model.dart';
@@ -18,17 +17,18 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        centerTitle: true,
         surfaceTintColor: Colors.transparent,
         title: const Text('Trang chủ', style: AppStyle.appBarText),
-        actions: [
-          IconButton(
-            onPressed: viewModel.showModalBottomSheetAction,
-            icon: const Icon(
-              Icons.add_circle,
-              color: AppColor.secondaryColor,
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: viewModel.showModalBottomSheetAction,
+        //     icon: const Icon(
+        //       Icons.add_circle,
+        //       color: AppColor.secondaryColor,
+        //     ),
+        //   ),
+        // ],
       ),
       body: Obx(() => ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 9),
