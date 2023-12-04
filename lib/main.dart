@@ -6,6 +6,7 @@ import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/firebase_options.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
+import 'package:iot_app/view_models/edit_user_view_model.dart';
 import 'package:iot_app/view_models/navigation_view_model.dart';
 
 void main() async {
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
       ),
+      initialBinding: BindingsBuilder(() {
+        Get.put(EditUserViewModel());
+      }),
       home: FutureBuilder(
         future: Get.find<AuthenticationRepository>().setInitialScreen(),
         builder: (context, snapshot) {

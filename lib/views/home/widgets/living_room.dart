@@ -19,7 +19,8 @@ class AreaDetailItem extends StatelessWidget {
           children: [
             FutureBuilder(
               future: areaViewModel.getImageUrl(area.imgUrl),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Container(
@@ -92,6 +93,22 @@ class AreaDetailItem extends StatelessWidget {
                 );
               });
             },
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Mô Tả",
+                    style: TextStyle(
+                      color: Color(0xff484D51),
+                      fontSize: 18,
+                    )),
+                Text(area.des),
+              ],
+            ),
           ),
         ),
       ],
