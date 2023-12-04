@@ -19,8 +19,7 @@ class AreaDetailItem extends StatelessWidget {
           children: [
             FutureBuilder(
               future: areaViewModel.getImageUrl(area.imgUrl),
-              builder:
-                  (BuildContext context, AsyncSnapshot<String> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Container(
@@ -107,6 +106,13 @@ class AreaDetailItem extends StatelessWidget {
                       fontSize: 18,
                     )),
                 Text(area.des),
+                if (area.devices.firstWhereOrNull(
+                        (element) => element.lightValue != null) !=
+                    null)
+                  GetBuilder<AreaViewModel>(builder: (context) {
+                    return Text(
+                        'Độ sáng hiện tại: ${area.devices.singleWhere((element) => element.lightValue != null).lightValue}/100');
+                  })
               ],
             ),
           ),
