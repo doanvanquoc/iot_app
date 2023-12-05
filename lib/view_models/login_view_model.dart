@@ -62,8 +62,8 @@ class LoginViewModel extends GetxController {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String userData = jsonEncode(user.toJson());
         await prefs.setString('userData', userData);
-        GlobalModel.instance.setAuthenticatedUser(user);
         isSuccess.value = true;
+        GlobalModel.instance.setAuthenticatedUser(user);
       }
     } catch (e) {
       Get.snackbar(

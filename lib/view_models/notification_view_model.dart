@@ -1,15 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/models/notification.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationViewModel extends GetxController {
   RxList<Noti> notifications = <Noti>[].obs;
-
-  // addNoti(DateTime dateTime, String noti) {
-  //   final notification = Noti(datetime: dateTime, noti: noti);
-  //   notifications.add(notification);
-  // }
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   getNotifications() async {
     String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
@@ -59,6 +60,60 @@ class NotificationViewModel extends GetxController {
     });
 
     update();
+  }
+
+  Future<void> listenToFirebellState() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userData = prefs.getString('userData');
+
+    if (userData != null) {
+      final databaseReference = FirebaseDatabase.instance.ref();
+      databaseReference.child('myhome/firebell/state').onValue.listen((event) {
+        final isFirebellActive = event.snapshot.value == true;
+        if (isFirebellActive) {
+          showFirebellNotification();
+        } else {
+          cancelFirebellNotification();
+        }
+      });
+    }
+  }
+
+  Future<void> cancelFirebellNotification() async {
+    await flutterLocalNotificationsPlugin.cancel(0);
+  }
+
+  Future<void> showFirebellNotification() async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'channel_id_0',
+      'Âm thanh',
+      channelDescription: 'Kênh âm thanh cảnh báo cháy',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      sound: const RawResourceAndroidNotificationSound('firebell'),
+      additionalFlags: Int32List.fromList([4]),
+    );
+
+    var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Cảnh báo!',
+      'Hệ thống báo cháy đã được kích hoạt. Vui lòng kiểm tra ngay!',
+      platformChannelSpecifics,
+      payload: 'firebell_payload',
+    );
+  }
+
+  Future<void> onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    if (notificationResponse.payload != null) {
+      print('notification payload: ${notificationResponse.payload}');
+    }
   }
 
   @override
