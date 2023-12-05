@@ -19,7 +19,6 @@ class AuthenticationViewModel extends GetxController {
   static LoginViewModel viewModel = Get.put(LoginViewModel());
   static AuthenticationViewModel get instance =>
       Get.put(AuthenticationViewModel());
-      
 
   List<TextEditingController> otpControllers =
       List.generate(6, (index) => TextEditingController());
@@ -167,6 +166,7 @@ class AuthenticationViewModel extends GetxController {
   }
 
   Future<String> getHomeId() async {
+    Get.put(EditUserViewModel());
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('email',
