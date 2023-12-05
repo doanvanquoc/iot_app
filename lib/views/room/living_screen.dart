@@ -11,7 +11,6 @@ class AreaDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceViewModel = Get.put(DeviceViewModel());
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,

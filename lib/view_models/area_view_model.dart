@@ -7,6 +7,7 @@ import 'package:iot_app/models/area.dart';
 import 'package:iot_app/models/device.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
+import 'package:iot_app/view_models/edit_user_view_model.dart';
 
 class AreaViewModel extends GetxController {
   final deviceViewModel = Get.put(DeviceViewModel());
@@ -34,6 +35,7 @@ class AreaViewModel extends GetxController {
   }
 
   void getAreaDevices(Area area) async {
+    Get.put(EditUserViewModel());
     String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
     FirebaseDatabase.instance
         .ref()

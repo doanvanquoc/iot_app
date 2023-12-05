@@ -104,12 +104,7 @@ class EditUserScreen extends StatelessWidget {
                         label: 'Số điện thoại',
                         controller: viewModel.phoneController,
                       ),
-                      const SizedBox(height: 15),
-                      TextEditUser(
-                        label: 'Mật khẩu',
-                        controller: viewModel.passwordController,
-                      ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 50),
                       Obx(() {
                         return MyButton(
                             bgColor: viewModel.isDataChanged.value

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +31,7 @@ class AuthenticationViewModel extends GetxController {
       otpValues.every((value) => value.trim().length == 1);
   Rx<User?> firebaseUser = Rx<User?>(null);
 
-    @override
+  @override
   void onInit() {
     super.onInit();
     startTime();
@@ -165,47 +166,67 @@ class AuthenticationViewModel extends GetxController {
   }
 
   Future<String> getHomeId() async {
+    Get.put(EditUserViewModel());
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('email',
             isEqualTo: Get.find<EditUserViewModel>().emailController.text)
         .get();
 
-        String homeId = (querySnapshot.docs.single.data() as Map)['homeId'];
-        return homeId;
-    }
+    String homeId = (querySnapshot.docs.single.data() as Map)['homeId'];
+    return homeId;
+  }
 
   Future<void> showMyDialog() async {
     return showDialog<void>(
       context: Get.context!,
       barrierDismissible: false,
+      barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Thông báo'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('Bạn chắc chắn muốn đăng xuất?'),
+        return Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+              child: Container(
+                color: Colors.grey.withOpacity(0.2),
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              title: const Text('Thông báo'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: const <Widget>[
+                    Text('Bạn chắc chắn muốn đăng xuất?'),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('Đóng'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Đăng xuất'),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    isSuccess.value = false;
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.remove('userData');
+                    firebaseUser.value = null;
+                    Get.offAll(() => LoginScreen());
+                  },
+                ),
               ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: const Text('Đóng'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            TextButton(
-              child: const Text('Đăng xuất'),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                isSuccess.value = false;
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.remove('userData');
-                firebaseUser.value = null;
-                Get.offAll(() => LoginScreen());
-              },
+              backgroundColor: Colors.white,
             ),
           ],
         );

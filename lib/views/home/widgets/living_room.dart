@@ -94,6 +94,29 @@ class AreaDetailItem extends StatelessWidget {
             },
           ),
         ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Mô Tả",
+                    style: TextStyle(
+                      color: Color(0xff484D51),
+                      fontSize: 18,
+                    )),
+                Text(area.des),
+                if (area.devices.firstWhereOrNull(
+                        (element) => element.lightValue != null) !=
+                    null)
+                  GetBuilder<AreaViewModel>(builder: (context) {
+                    return Text(
+                        'Độ sáng hiện tại: ${area.devices.singleWhere((element) => element.lightValue != null).lightValue}/100');
+                  })
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

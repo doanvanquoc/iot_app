@@ -24,7 +24,7 @@ class MyCard extends StatelessWidget {
     String areaName = areaViewModel.areas
         .firstWhere((area) => area.id == device.areaId,
             orElse: () =>
-                Area(id: -1, name: 'Unknown', imgUrl: '', devices: []))
+                Area(id: -1, name: 'Unknown', imgUrl: '', devices: [], des: ''))
         .name;
 
     return Container(
