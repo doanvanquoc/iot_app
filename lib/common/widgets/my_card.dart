@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
@@ -44,7 +45,11 @@ class MyCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(
-                  (device.id == 7) ? Icons.door_sliding : device.icon,
+                  (device.id == 7)
+                      ? deviceViewModel.devices[device.id - 1].state
+                          ? FontAwesomeIcons.doorOpen
+                          : FontAwesomeIcons.doorClosed
+                      : device.icon,
                   size: 40,
                   color: deviceViewModel.devices[device.id - 1].state
                       ? AppColor.primaryColor
