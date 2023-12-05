@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/models/user.dart';
 import 'package:iot_app/view_models/edit_user_view_model.dart';
+import 'package:iot_app/view_models/notification_view_model.dart';
 import 'package:iot_app/views/device/device_screen.dart';
 import 'package:iot_app/views/home/home_screen.dart';
 import 'package:iot_app/views/user/user_screen.dart';
@@ -45,6 +46,9 @@ class GlobalModel extends GetxController {
     authenticatedUser.value = user;
     updateEditUserViewModel();
     update();
+    Future.delayed(const Duration(seconds: 2), () {
+      NotificationViewModel().listenToFirebellState();
+    });
   }
 
   void clearAuthenticatedUser() {

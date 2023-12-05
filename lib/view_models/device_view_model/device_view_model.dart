@@ -188,4 +188,6 @@ class DeviceViewModel extends GetxController {
     devices.singleWhere((element) => element.lightValue != null).state =
         lightValue <= 20;
   }
+
+
 }
