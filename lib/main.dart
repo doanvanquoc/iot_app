@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/firebase_options.dart';
 import 'package:iot_app/repository/authentication_repository.dart';
 import 'package:iot_app/view_models/authentication_view_model.dart';
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'IoT App',
       theme: ThemeData(
         primarySwatch: Colors.orange,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffFF7B54)),
@@ -38,24 +36,10 @@ class MyApp extends StatelessWidget {
         Get.put(EditUserViewModel());
       }),
       home: FutureBuilder(
-        future: Get.find<AuthenticationRepository>().setInitialScreen(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height / 2,
-                  color: AppColor.primaryColor,
-                ),
-              ),
-            );
-          } else {
-            return Container();
-          }
-        },
-      ),
+          future: Get.find<AuthenticationRepository>().setInitialScreen(),
+          builder: (context, snapshot) {
+            return const Scaffold();
+          }),
     );
   }
 }
