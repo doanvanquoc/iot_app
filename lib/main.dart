@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'IoT App',
       theme: ThemeData(
         primarySwatch: Colors.orange,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffFF7B54)),

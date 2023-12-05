@@ -2,7 +2,7 @@
     package="com.example.iot_app">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="iot_app"
+        android:label="Smart Home"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
