@@ -20,7 +20,7 @@ class Device {
       : id = json['id'],
         name = json['name'],
         areaId = json['areaId'],
-        icon = Icons.light,
+        icon = Icons.light_outlined,
         state = json['state'],
         lightValue = json['lightValue'];
 }

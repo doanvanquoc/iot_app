@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_color.dart';
 import 'package:iot_app/common/apps/app_style.dart';
@@ -88,10 +89,12 @@ class AreaItem extends StatelessWidget {
                     backgroundColor: area.devices[index].state
                         ? AppColor.primaryColor
                         : AppColor.secondaryColor,
-                    child: Image.asset(
-                      'assets/images/led.png',
-                      width: 30,
-                      height: 30,
+                    child: Icon(
+                      area.devices[index].id == 7
+                          ? area.devices[index].state
+                              ? FontAwesomeIcons.doorOpen
+                              : FontAwesomeIcons.doorClosed
+                          : Icons.light,
                       color: Colors.white,
                     ),
                   ),
