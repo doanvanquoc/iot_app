@@ -80,7 +80,6 @@ class AuthenticationRepository extends GetxController {
       }
       return null;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -89,8 +88,6 @@ class AuthenticationRepository extends GetxController {
     String normalizedPhoneNo = normalizePhoneNumberForOTP(
         phoneNo, viewModel.selectedCountryCode.value);
     UserModel? user = await getUserByPhoneNo(normalizedPhoneNo);
-    print('phoneNumberAuthentication: $user');
-    print(normalizedPhoneNo);
 
     if (user != null) {
       isLoading.value = true;

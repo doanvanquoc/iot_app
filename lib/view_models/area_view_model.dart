@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -61,7 +59,6 @@ class AreaViewModel extends GetxController {
     try {
       imageUrl = await storage.ref('area_images/$imageName').getDownloadURL();
     } catch (e) {
-      print(e);
       return '';
     }
     return imageUrl;

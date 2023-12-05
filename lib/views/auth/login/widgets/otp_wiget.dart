@@ -6,6 +6,7 @@ class OTPField extends StatelessWidget {
   OTPField({Key? key, required this.idx}) : super(key: key);
 
   final AuthenticationViewModel otpField = Get.find();
+  // ignore: prefer_typing_uninitialized_variables
   final idx;
 
   @override

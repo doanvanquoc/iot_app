@@ -68,7 +68,6 @@ class AuthenticationViewModel extends GetxController {
       }
       return null;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -90,7 +89,6 @@ class AuthenticationViewModel extends GetxController {
           .getUserByPhoneNo(normalizedPhoneNo);
 
       if (userResult != null) {
-        print('verifyOTP: $userResult');
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String userData = jsonEncode(userResult.toJson());
@@ -98,7 +96,6 @@ class AuthenticationViewModel extends GetxController {
 
         GlobalModel.instance.setAuthenticatedUser(userResult);
       } else {
-        print('error:');
       }
     } else {
       Get.snackbar(

@@ -179,7 +179,6 @@ class LoginScreen extends StatelessWidget {
                               if (viewModel.checkInPutCompletion) {
                                 AuthenticationViewModel.instance
                                     .phoneAuthentification(phoneNo.text.trim());
-                                print(phoneNo.text.trim());
                               } else {
                                 AuthenticationRepository
                                     .instance.isLoading.value = false;

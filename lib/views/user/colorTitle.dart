@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class ColorTitle extends StatelessWidget {
@@ -33,7 +35,8 @@ class ColorTitle extends StatelessWidget {
             child: Icon(icon, color: Colors.black),
           ),
           title: Text(text, style: const TextStyle(fontSize: 16)),
-          trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 24),
+          trailing: const Icon(Icons.arrow_forward_ios,
+              color: Colors.black, size: 24),
         ),
       ),
     );

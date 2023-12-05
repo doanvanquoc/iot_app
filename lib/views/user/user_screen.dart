@@ -19,7 +19,6 @@ class UserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserModel? user = GlobalModel.instance.authenticatedUser.value;
 
-    print('userScreen: $user');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -101,7 +100,7 @@ class UserScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => NotificationScreen(),
+                      builder: (context) => const NotificationScreen(),
                     ),
                   );
                 },

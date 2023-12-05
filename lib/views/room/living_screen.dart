@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iot_app/common/apps/app_style.dart';
 import 'package:iot_app/models/area.dart';
-import 'package:iot_app/view_models/device_view_model/device_view_model.dart';
 import 'package:iot_app/views/home/widgets/living_room.dart';
 
 class AreaDetailScreen extends StatelessWidget {
