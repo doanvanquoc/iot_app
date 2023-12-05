@@ -58,6 +58,7 @@ class LoginScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  textInputAction: TextInputAction.next,
                                   controller: email,
                                   onChanged: (value) =>
                                       viewModel.email.value = value,
@@ -222,7 +223,13 @@ class LoginScreen extends StatelessWidget {
               return Container(
                 color: Colors.black.withOpacity(0.3),
                 child: Center(
-                  child: Lottie.asset('assets/lotties/loading.json'),
+                  child: Lottie.asset(
+                    'assets/lotties/loading.json',
+                  
+                    width: 10,
+                    height: 10,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             } else {
