@@ -37,8 +37,6 @@ class AuthenticationRepository extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userData = prefs.getString('userData');
 
-    await Future.delayed(const Duration(seconds: 2));
-
     if (userData != null) {
       UserModel user = UserModel.fromJson(jsonDecode(userData));
       GlobalModel.instance.setAuthenticatedUser(user);
