@@ -77,7 +77,7 @@ class EditUserScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                Get.find<EditUserViewModel>().fullNameController.text,
+                viewModel.fullNameController.text,
                 style: const TextStyle(
                     fontSize: 24,
                     color: Color.fromRGBO(72, 77, 81, 1),
