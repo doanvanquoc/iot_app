@@ -22,7 +22,7 @@ class AuthenticationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Scaffold(
-        backgroundColor: AppColor.backgroundColor,
+        backgroundColor: const Color(0xffF7FBFC),
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
