@@ -44,7 +44,7 @@ class MyCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(
-                  device.icon,
+                  (device.id == 7) ? Icons.door_sliding : device.icon,
                   size: 40,
                   color: deviceViewModel.devices[device.id - 1].state
                       ? AppColor.primaryColor
