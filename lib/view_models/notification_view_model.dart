@@ -53,7 +53,7 @@ class NotificationViewModel extends GetxController {
         .child('${notifications.length + 1}')
         .set({
       'date': '$day - $month - ${DateTime.now().year}',
-      'time': '$hour : $minute : $second',
+      'time': '${hour}h : ${minute}m : ${second}s',
       'noti': noti,
       'user': user
     });

@@ -85,6 +85,12 @@ class DeviceViewModel extends GetxController {
   }
 
   Future<void> onHandelSwitch(bool pres, int id) async {
+    String action1 = devices.singleWhere((element) => element.id == id).id == 7
+        ? "Mở"
+        : "Bật";
+    String action2 = devices.singleWhere((element) => element.id == id).id == 7
+        ? "Đóng"
+        : "Tắt";
     String homeId = await Get.find<AuthenticationViewModel>().getHomeId();
     if (devices.singleWhere((element) => element.id == id).lightValue == null) {
       String user = Get.find<EditUserViewModel>().fullNameController.text;
@@ -97,12 +103,12 @@ class DeviceViewModel extends GetxController {
           database.ref('$homeId/device').child('${3}').update({'state': pres});
           database.ref('$homeId/device').child('${4}').update({'state': pres});
           String noti1 = devices[2].state
-              ? "Bật ${devices[2].name}"
-              : "Tắt ${devices[2].name}";
+              ? "$action1 ${devices[2].name}"
+              : "$action2 ${devices[2].name}";
 
           String noti2 = devices[3].state
-              ? "Bật ${devices[3].name}"
-              : "Tắt ${devices[3].name}";
+              ? "$action1 ${devices[3].name}"
+              : "$action2 ${devices[3].name}";
           log(noti1);
           log(noti2);
           await notiViewModel.addNotification(noti1, user);
@@ -113,8 +119,8 @@ class DeviceViewModel extends GetxController {
               .child('${deviceIndex + 1}')
               .update({'state': pres});
           String noti = devices[deviceIndex].state
-              ? "Bật ${devices[deviceIndex].name}"
-              : "Tắt ${devices[deviceIndex].name}";
+              ? "$action1 ${devices[deviceIndex].name}"
+              : "$action2 ${devices[deviceIndex].name}";
           // notiViewModel.addNoti(DateTime.now(), noti);
 
           notiViewModel.addNotification(noti, user);
