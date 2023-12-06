@@ -85,7 +85,7 @@ class NotificationViewModel extends GetxController {
 
   Future<void> showFirebellNotification() async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'channel_id_0',
+      'channel_id_1',
       'Âm thanh',
       channelDescription: 'Kênh âm thanh cảnh báo cháy',
       importance: Importance.max,
