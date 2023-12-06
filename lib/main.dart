@@ -1,7 +1,6 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,7 @@ import 'package:iot_app/view_models/authentication_view_model.dart';
 import 'package:iot_app/view_models/edit_user_view_model.dart';
 import 'package:iot_app/view_models/navigation_view_model.dart';
 import 'package:iot_app/view_models/notification_view_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -22,6 +22,15 @@ void main() async {
   Get.put(GlobalModel());
   Get.put(AuthenticationViewModel());
 
+  if (Platform.isAndroid) {
+    var status = await Permission.notification.request();
+    if (status.isGranted) {
+      print('Accepted');
+    } else {
+      print('Denied');
+    }
+  }
+
   var initializationSettingsAndroid =
       const AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -31,7 +40,8 @@ void main() async {
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    onDidReceiveNotificationResponse: NotificationViewModel().onDidReceiveNotificationResponse,
+    onDidReceiveNotificationResponse:
+        NotificationViewModel().onDidReceiveNotificationResponse,
   );
 
   NotificationViewModel().listenToFirebellState();
@@ -63,4 +73,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
