@@ -94,8 +94,8 @@ class UserScreen extends StatelessWidget {
                 onTap: () {},
               ),
               ColorTitle(
-                icon: Icons.notifications,
-                text: "Thông báo",
+                icon: Icons.history,
+                text: "Lịch sử hoạt động",
                 onTap: () {
                   Navigator.push(
                     context,

@@ -16,7 +16,7 @@ class NotificationScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: const Text(
-          "Thông báo",
+          "Lịch sử hoạt động",
           style: AppStyle.appBarText,
         ),
       ),
